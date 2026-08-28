@@ -1,0 +1,25 @@
+---
+description: Alcance de producto CFL 404; docs/producto.md manda sobre SVG y specs
+alwaysApply: true
+---
+
+# Producto CFL 404
+
+Fuente de verdad: `docs/producto.md`. Si el SVG o `docs/specs-iniciales.txt` contradicen, gana producto.
+
+App de **alumnos** (Expo SDK 54): login Google, cursada, credencial QR, beneficios, contacto y cooperadora.
+
+## Asistencia
+
+- Pantalla **Asistencia** = credencial (nombre, documento/legajo, foto si hay, curso/ciclo) + **QR** para que el instituto registre presentismo.
+- No implementar botón **“Dar asistencia”**.
+- Historial de asistencia solo en **Curso**.
+- **Beneficios** = comercios adheridos. No otra credencial.
+
+## Fuera de alcance v1
+
+- App de preceptor para escanear QR (mockear payload)
+- Backend propio
+- Pagos in-app de cooperadora
+
+No agregar pantallas ni flujos que no estén en `docs/producto.md` y `docs/navegacion.md`.

@@ -1,0 +1,32 @@
+---
+description: Rutas Expo Router del CFL 404 según docs/navegacion.md
+globs: app/**/*.tsx
+alwaysApply: false
+---
+
+# Navegación
+
+Seguir `docs/navegacion.md`. Rutas en `app/` (no `src/app/`). Reemplazar el starter `(tabs)` / `explore`.
+
+```text
+app/
+  _layout.tsx              # fonts, theme, auth gate
+  (auth)/login.tsx
+  (auth)/ayuda.tsx
+  (app)/index.tsx          # Dashboard
+  (app)/cursos/index.tsx
+  (app)/cursos/[id].tsx
+  (app)/asistencia.tsx     # credencial + QR
+  (app)/beneficios.tsx
+  (app)/perfil.tsx
+  (app)/contacto.tsx
+  (app)/cooperadora.tsx
+  (app)/ayuda.tsx
+```
+
+Tabs: Inicio, Cursos, Credencial; el resto en Más (o un quinto tab Beneficios).
+
+- Una pantalla = un archivo (o carpeta + `index.tsx`)
+- Curso: `/(app)/cursos/[id]`
+- Scheme: `cfl404mobile`
+- UI en español

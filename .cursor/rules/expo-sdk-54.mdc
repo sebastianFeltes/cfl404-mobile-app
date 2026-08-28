@@ -1,0 +1,13 @@
+---
+description: Usar APIs y docs de Expo SDK 54, no versiones nuevas
+alwaysApply: true
+---
+
+# Expo SDK 54
+
+Este proyecto está en **Expo SDK 54** (`expo ~54`).
+
+- Leer https://docs.expo.dev/versions/v54.0.0/ antes de agregar APIs
+- No usar APIs, paquetes ni snippets de SDK 55+
+- Compatibilidad de paquetes: `npx expo install <paquete>`
+- Router file-based en `app/` (template default SDK 54)

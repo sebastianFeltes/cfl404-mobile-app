@@ -1,0 +1,51 @@
+# Notas crudas de alcance. Si contradicen docs/producto.md, gana producto.md
+# (Asistencia = credencial + QR; Beneficios = comercios, no credencial).
+
+secciones:
+login 8
+google login
+help
+
+dashboard 13
+
+perfil 8
+vista/carga/edición de datos
+
+cursos 5
+notificaciones de cursada
+
+curso 8
+enlace a recursos académicos
+enlace a wsp
+vista datos
+historial asistencia
+
+contacto 5
+los mismos que los de la página
+
+asistencia 5
+qr (?)
+
+beneficios 5
+credencial de alumno
+comercios
+
+ayuda (como usar) 5
+
+cooperadora 5
+datos para copiar y compartir
+
+
+estilos:
+colores:
+azul-oscuro: #166193
+gris-oscuro: #1D1E1C
+gris-claro: #585856	
+celeste: #37A6DE
+amarillo: #FDEA14
+azul-claro: #166193
+blanco: #FFFFFF
+
+fuentes:
+roboto flex
+nunito

@@ -1,0 +1,30 @@
+---
+description: Paleta y tipografía CFL 404 en constants/theme.ts
+globs: "{constants,components,hooks,app}/**/*.{ts,tsx}"
+alwaysApply: false
+---
+
+# Tema
+
+Tokens en `constants/theme.ts`. No hardcodear hex de la paleta en pantallas.
+
+| Token | Hex | Uso |
+| --- | --- | --- |
+| azul | `#166193` | Primario, header, botones |
+| celeste | `#37A6DE` | Acentos, links, tab activo |
+| amarillo | `#FDEA14` | Destacados, CTAs secundarios |
+| gris-oscuro | `#1D1E1C` | Texto principal |
+| gris-claro | `#585856` | Texto secundario, bordes |
+| blanco | `#FFFFFF` | Fondos, texto sobre azul |
+
+`azul-oscuro` y `azul-claro` de las specs son el mismo hex: un solo token `azul`.
+
+Fuentes: **Roboto Flex** (cuerpo/UI), **Nunito** (títulos). Cargarlas en el root layout.
+
+```ts
+// ❌ BAD
+<Text style={{ color: '#166193' }}>Ingresar</Text>
+
+// ✅ GOOD
+<Text style={{ color: Colors.light.primary }}>Ingresar</Text>
+```
