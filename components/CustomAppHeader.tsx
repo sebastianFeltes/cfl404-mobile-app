@@ -1,8 +1,9 @@
 /**
  * Header Custom Compartido para las pantallas de la app.
- * - Izquierda: Logo CFL 404 (touchable -> redirige al Dashboard index)
- * - Centro: Fecha y hora en tiempo real
- * - Derecha: Botón menú hamburguesa (abre el drawer)
+ * - Fondo azul institucional (#166193).
+ * - Izquierda: Logo CFL 404 (assets/logo_texto_hero.svg) en contenedor con borde/fondo blanco, touchable -> navega a Dashboard.
+ * - Centro: Fecha y hora en tiempo real en color blanco.
+ * - Derecha: Botón menú hamburguesa en color blanco.
  */
 
 import React, { useState, useEffect } from 'react';
@@ -11,8 +12,10 @@ import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
+import { SvgXml } from 'react-native-svg';
 import { Colors, Fonts, Spacing } from '@/constants/theme';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { CFL_LOGO_HERO_SVG } from '@/components/CflLogoHeroSvg';
 
 export function CustomAppHeader() {
   const router = useRouter();
@@ -58,15 +61,17 @@ export function CustomAppHeader() {
   return (
     <View style={[styles.headerContainer, { paddingTop: Math.max(insets.top, 12) }]}>
       <View style={styles.headerContent}>
-        {/* Izquierda: Logo CFL 404 (interactivo) */}
+        {/* Izquierda: Logo CFL 404 SVG (interactivo) */}
         <TouchableOpacity
           onPress={handleLogoPress}
           activeOpacity={0.7}
-          style={styles.logoBadge}
+          style={styles.logoButton}
           accessibilityLabel="Ir al Dashboard"
           accessibilityRole="button"
         >
-          <Text style={styles.logoBadgeText}>CFL 404</Text>
+          <View style={styles.logoBadge}>
+            <SvgXml xml={CFL_LOGO_HERO_SVG} width={38} height={38} />
+          </View>
         </TouchableOpacity>
 
         {/* Centro: Fecha y hora actual */}
@@ -83,7 +88,7 @@ export function CustomAppHeader() {
           accessibilityLabel="Abrir menú"
           accessibilityRole="button"
         >
-          <Ionicons name="menu" size={28} color={Colors.azul} />
+          <Ionicons name="menu" size={28} color={Colors.blanco} />
         </TouchableOpacity>
       </View>
     </View>
@@ -92,9 +97,9 @@ export function CustomAppHeader() {
 
 const styles = StyleSheet.create({
   headerContainer: {
-    backgroundColor: Colors.blanco,
+    backgroundColor: Colors.azul,
     borderBottomWidth: 1,
-    borderBottomColor: '#E2E8F0',
+    borderBottomColor: 'rgba(255, 255, 255, 0.15)',
     paddingBottom: Spacing.sm,
     paddingHorizontal: Spacing.md,
   },
@@ -102,20 +107,24 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    minHeight: 48,
+    minHeight: 52,
+  },
+  logoButton: {
+    padding: 2,
   },
   logoBadge: {
-    backgroundColor: Colors.azul,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 8,
-  },
-  logoBadgeText: {
-    color: Colors.blanco,
-    fontFamily: Fonts.title,
-    fontSize: 16,
-    fontWeight: '700',
-    letterSpacing: 0.5,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: Colors.blanco,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    elevation: 2,
+    overflow: 'hidden',
   },
   centerContainer: {
     alignItems: 'center',
@@ -123,14 +132,15 @@ const styles = StyleSheet.create({
   },
   timeText: {
     fontFamily: Fonts.title,
-    fontSize: 17,
+    fontSize: 18,
     fontWeight: '700',
-    color: Colors.grisOscuro,
+    color: Colors.blanco,
   },
   dateText: {
     fontFamily: Fonts.body,
     fontSize: 12,
-    color: Colors.grisClaro,
+    color: 'rgba(255, 255, 255, 0.85)',
+    marginTop: 1,
   },
   iconButton: {
     padding: 6,
