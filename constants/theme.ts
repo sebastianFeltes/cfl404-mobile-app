@@ -1,41 +1,55 @@
 /**
- * Below are the colors that are used in the app. The colors are defined in the light and dark mode.
- * There are many other ways to style your app. For example, [Nativewind](https://www.nativewind.dev/), [Tamagui](https://tamagui.dev/), [unistyles](https://reactnativeunistyles.vercel.app), etc.
+ * Tokens de color y diseño para la app CFL 404 (ciclo 2026).
+ * Fuente de verdad: docs/producto.md y docs/specs-iniciales.txt
  */
 
 import { Platform } from 'react-native';
 
-const tintColorLight = '#0a7ea4';
-const tintColorDark = '#fff';
+/** Paleta institucional oficial del CFL 404 */
+export const CflColors = {
+  azul: '#166193',        // Primario, headers, botones principales
+  celeste: '#37A6DE',     // Acentos, links, tab/estado activo
+  amarillo: '#FDEA14',    // Destacados, badges, CTAs secundarios
+  grisOscuro: '#1D1E1C',  // Texto principal
+  grisClaro: '#585856',   // Texto secundario, bordes sutiles, captions
+  blanco: '#FFFFFF',      // Fondos de tarjeta, texto sobre azul
+  fondo: '#F8FAFC',       // Fondo de pantallas general (limpio y minimalista)
+  superficie: '#FFFFFF',  // Superficie de tarjetas y modales
+  borde: '#E2E8F0',       // Bordes sutiles de separadores
+  bordeActivo: '#37A6DE', // Borde de inputs en foco
+  exito: '#16A34A',       // Estados positivos / presente
+  peligro: '#DC2626',     // Inasistencias críticas / errores
+  alerta: '#D97706',      // Advertencias / tardanzas
+} as const;
 
 export const Colors = {
   light: {
-    text: '#11181C',
-    background: '#fff',
-    tint: tintColorLight,
-    icon: '#687076',
-    tabIconDefault: '#687076',
-    tabIconSelected: tintColorLight,
+    text: CflColors.grisOscuro,
+    background: CflColors.fondo,
+    tint: CflColors.azul,
+    icon: CflColors.grisClaro,
+    tabIconDefault: CflColors.grisClaro,
+    tabIconSelected: CflColors.azul,
+    card: CflColors.blanco,
+    border: CflColors.borde,
   },
   dark: {
     text: '#ECEDEE',
     background: '#151718',
-    tint: tintColorDark,
+    tint: CflColors.celeste,
     icon: '#9BA1A6',
     tabIconDefault: '#9BA1A6',
-    tabIconSelected: tintColorDark,
+    tabIconSelected: CflColors.celeste,
+    card: '#1F2428',
+    border: '#2D3339',
   },
 };
 
 export const Fonts = Platform.select({
   ios: {
-    /** iOS `UIFontDescriptorSystemDesignDefault` */
     sans: 'system-ui',
-    /** iOS `UIFontDescriptorSystemDesignSerif` */
     serif: 'ui-serif',
-    /** iOS `UIFontDescriptorSystemDesignRounded` */
     rounded: 'ui-rounded',
-    /** iOS `UIFontDescriptorSystemDesignMonospaced` */
     mono: 'ui-monospace',
   },
   default: {
