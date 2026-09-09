@@ -3,13 +3,10 @@ nosotros hacemos: rama flo-tom
 - asistencia (QR)
 
 - tenemos la estructura principal del dashboard y de la credencial
-- cosas a modificar: 
+- modificaciones:
 	- fondo del header: pintarlo de azul
 	- cambiar el logo (ahora dice cfl 404) y poner el del cfl
-	- aplicar gradientes de azul a celeste
 	- pintar el fondo del drawer de azul, con letra e iconos blancos
-	- usar el color verde para ciertos detalles
-	- 
 
 
 
