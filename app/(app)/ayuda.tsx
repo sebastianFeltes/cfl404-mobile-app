@@ -100,9 +100,13 @@ export default function AyudaScreen() {
 
               <Text style={styles.topicDescription}>{topic.description}</Text>
 
-              <View style={styles.importantCallout}>
-                <Text style={styles.importantLabelBold}>IMPORTANTE:</Text>
-                <Text style={styles.importantTextBold}>{topic.important}</Text>
+              {/* REQUERIMIENTO: Recuadro con la leyenda "importante" coloreado de verde */}
+              <View style={styles.importantCalloutGreen}>
+                <View style={styles.importantHeaderRow}>
+                  <Ionicons name="checkmark-circle" size={15} color={Palette.success} style={{ marginRight: 5 }} />
+                  <Text style={styles.importantLabelGreenBold}>IMPORTANTE:</Text>
+                </View>
+                <Text style={styles.importantTextGreenBold}>{topic.important}</Text>
               </View>
             </View>
           ))}
@@ -276,26 +280,35 @@ const styles = StyleSheet.create({
     lineHeight: 19,
     marginBottom: 10,
   },
-  importantCallout: {
-    backgroundColor: Palette.surfaceSubtle,
-    borderRadius: 8,
-    padding: 10,
-    borderLeftWidth: 3,
-    borderLeftColor: Palette.celeste,
+  /* Recuadros con la leyenda "importante" coloreados de verde */
+  importantCalloutGreen: {
+    backgroundColor: '#DCFCE7', // verde suave
+    borderRadius: 10,
+    padding: 12,
+    borderWidth: 1,
+    borderColor: '#86EFAC',
+    borderLeftWidth: 4,
+    borderLeftColor: Palette.success, // verde principal #15803D
+    marginTop: 4,
   },
-  importantLabelBold: {
-    fontFamily: Typography.fontFamily.bold,
-    fontWeight: 'bold',
-    fontSize: 11,
-    color: Palette.azul,
-    marginBottom: 2,
+  importantHeaderRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 4,
   },
-  importantTextBold: {
+  importantLabelGreenBold: {
     fontFamily: Typography.fontFamily.bold,
     fontWeight: 'bold',
     fontSize: 12,
-    color: Palette.grisOscuro,
-    lineHeight: 16,
+    color: Palette.success,
+    letterSpacing: 0.5,
+  },
+  importantTextGreenBold: {
+    fontFamily: Typography.fontFamily.bold,
+    fontWeight: 'bold',
+    fontSize: 12,
+    color: '#14532D', // verde oscuro legible
+    lineHeight: 17,
   },
 
   /* Tarjeta de degradé con botón */

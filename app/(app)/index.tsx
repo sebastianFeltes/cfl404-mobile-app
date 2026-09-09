@@ -6,6 +6,7 @@ import {
   ScrollView,
   SafeAreaView,
   Pressable,
+  Image,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -109,31 +110,45 @@ export default function DashboardScreen() {
                 pressed && styles.cardPressed,
               ]}
               onPress={() => router.push(`/(app)/cursos/${primaryCourse.id}`)}>
-              <View style={styles.courseHeader}>
+              {/* Imagen del curso */}
+              <View style={styles.courseImageWrapper}>
+                <Image
+                  source={primaryCourse.image}
+                  style={styles.courseCardImage}
+                  resizeMode="cover"
+                />
                 <View style={styles.statusPill}>
                   <View style={styles.statusDot} />
                   <Text style={styles.statusPillText}>{primaryCourse.statusName}</Text>
                 </View>
-                <Text style={styles.absenceText}>
-                  Faltas: {primaryCourse.absenceCount}/{primaryCourse.maxAbsences}
-                </Text>
               </View>
 
-              <Text style={styles.courseTitle}>{primaryCourse.name}</Text>
-              <Text style={styles.courseMeta}>
-                {primaryCourse.days.join(' y ')} • {primaryCourse.startTime} a{' '}
-                {primaryCourse.endTime} hs
-              </Text>
-              <Text style={styles.classroomText}>{primaryCourse.classroom}</Text>
+              <View style={styles.courseCardBody}>
+                <View style={styles.courseHeader}>
+                  <Text style={styles.courseTitle}>{primaryCourse.name}</Text>
+                  <View style={styles.absencePillGreen}>
+                    <Ionicons name="checkmark-circle" size={13} color={Palette.success} />
+                    <Text style={styles.absenceTextGreen}>
+                      Faltas: {primaryCourse.absenceCount}/{primaryCourse.maxAbsences}
+                    </Text>
+                  </View>
+                </View>
 
-              <View style={styles.courseFooter}>
-                <Text style={styles.instructorText}>
-                  Docente: {primaryCourse.instructor.firstName}{' '}
-                  {primaryCourse.instructor.lastName}
+                <Text style={styles.courseMeta}>
+                  {primaryCourse.days.join(' y ')} • {primaryCourse.startTime} a{' '}
+                  {primaryCourse.endTime} hs
                 </Text>
-                <View style={styles.viewCourseButton}>
-                  <Text style={styles.viewCourseButtonText}>Ver detalle</Text>
-                  <Ionicons name="arrow-forward" size={14} color={Palette.azul} />
+                <Text style={styles.classroomText}>{primaryCourse.classroom}</Text>
+
+                <View style={styles.courseFooter}>
+                  <Text style={styles.instructorText}>
+                    Docente: {primaryCourse.instructor.firstName}{' '}
+                    {primaryCourse.instructor.lastName}
+                  </Text>
+                  <View style={styles.viewCourseButton}>
+                    <Text style={styles.viewCourseButtonText}>Ver detalle</Text>
+                    <Ionicons name="arrow-forward" size={14} color={Palette.azul} />
+                  </View>
                 </View>
               </View>
             </Pressable>
@@ -297,11 +312,28 @@ const styles = StyleSheet.create({
   },
   courseCard: {
     backgroundColor: Palette.blanco,
-    borderRadius: 14,
-    padding: 18,
+    borderRadius: 16,
     borderWidth: 1,
     borderColor: Palette.border,
-    elevation: 2,
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 5,
+    overflow: 'hidden',
+  },
+  courseImageWrapper: {
+    width: '100%',
+    height: 140,
+    position: 'relative',
+    backgroundColor: '#E2E8F0',
+  },
+  courseCardImage: {
+    width: '100%',
+    height: '100%',
+  },
+  courseCardBody: {
+    padding: 16,
   },
   courseHeader: {
     flexDirection: 'row',
@@ -310,12 +342,17 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   statusPill: {
+    position: 'absolute',
+    top: 10,
+    left: 10,
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#DCFCE7',
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: 6,
+    borderWidth: 1,
+    borderColor: '#86EFAC',
   },
   statusDot: {
     width: 6,
@@ -330,10 +367,22 @@ const styles = StyleSheet.create({
     fontSize: 11,
     color: Palette.success,
   },
-  absenceText: {
-    fontFamily: Typography.fontFamily.semiBold,
-    fontSize: 12,
-    color: Palette.azul,
+  absencePillGreen: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#DCFCE7',
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: '#86EFAC',
+    gap: 4,
+  },
+  absenceTextGreen: {
+    fontFamily: Typography.fontFamily.bold,
+    fontWeight: 'bold',
+    fontSize: 11,
+    color: Palette.success,
   },
   courseTitle: {
     fontFamily: Typography.fontFamily.bold,

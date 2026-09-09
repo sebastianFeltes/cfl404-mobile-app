@@ -23,6 +23,7 @@ export interface CourseNotification {
 export interface Course {
   id: string;
   name: string;
+  image: any;
   statusId: number;
   statusName: 'ACTIVO' | 'FINALIZADO' | 'PENDIENTE';
   startDate: string;
@@ -82,6 +83,7 @@ export const mockCourses: Course[] = [
   {
     id: 'desarrollo-apps-moviles',
     name: 'Desarrollo de Aplicaciones Móviles',
+    image: require('@/assets/images/Desarrollador App moviles.jpg'),
     statusId: 1,
     statusName: 'ACTIVO',
     startDate: '09/03/2026',
@@ -186,7 +188,8 @@ export const mockCourses: Course[] = [
   },
   {
     id: 'programacion-web-fullstack',
-    name: 'Programación Web Full Stack',
+    name: 'Base de Datos y Programación Web',
+    image: require('@/assets/images/Base de Datos y Programación.jpg'),
     statusId: 1,
     statusName: 'ACTIVO',
     startDate: '11/03/2026',
@@ -206,7 +209,7 @@ export const mockCourses: Course[] = [
     quota: 30,
     endorsementBy: 'IPFL Provincia de Buenos Aires',
     description:
-      'Desarrollo de aplicaciones web dinámicas de extremo a extremo: Node.js, Express, PostgreSQL y bibliotecas modernas de interfaz de usuario.',
+      'Desarrollo de aplicaciones web dinámicas y bases de datos relacionales: Node.js, Express, PostgreSQL, diseño de esquemas y frontend moderno.',
     whatsappGroupUrl: 'https://chat.whatsapp.com/CFL404FullStack2026',
     resourcesUrl: 'https://drive.google.com/drive/folders/cfl404-fullstack',
     maxAbsences: 10,
@@ -251,6 +254,59 @@ export const mockCourses: Course[] = [
         message: 'Comenzamos el módulo de PostgreSQL y Prisma ORM. Repasar scripts de SQL dados en clase.',
         date: '01/09/2026',
         type: 'info',
+      },
+    ],
+  },
+  {
+    id: 'montador-electricista',
+    name: 'Montador Electricista',
+    image: require('@/assets/images/Montador Electricista.jpg'),
+    statusId: 1,
+    statusName: 'ACTIVO',
+    startDate: '16/03/2026',
+    endDate: '04/12/2026',
+    startTime: '18:30',
+    endTime: '21:45',
+    days: ['Lunes', 'Miércoles', 'Viernes'],
+    classroom: 'Taller de Electrotecnia — Sede Berisso',
+    instructor: {
+      firstName: 'Carlos',
+      lastName: 'Mendoza',
+      email: 'cmendoza@cfl404.edu.ar',
+    },
+    hourQuantity: 200,
+    classesQuantity: 70,
+    sponsorName: 'DGCyE — Dirección de Formación Profesional',
+    quota: 20,
+    endorsementBy: 'IPFL Provincia de Buenos Aires',
+    description:
+      'Instalaciones eléctricas domiciliarias e industriales, normas de seguridad y montaje de tableros eléctricos bajo reglamentación AEA.',
+    whatsappGroupUrl: 'https://chat.whatsapp.com/CFL404Electricidad2026',
+    resourcesUrl: 'https://drive.google.com/drive/folders/cfl404-electricidad',
+    maxAbsences: 8,
+    absenceCount: 0,
+    attendanceHistory: [
+      {
+        id: 'att-e01',
+        date: '02/09/2026',
+        codeName: 'presente',
+        countsAsAbsence: false,
+        note: 'Práctica de seguridad eléctrica',
+      },
+      {
+        id: 'att-e02',
+        date: '31/08/2026',
+        codeName: 'presente',
+        countsAsAbsence: false,
+      },
+    ],
+    notifications: [
+      {
+        id: 'notif-e1',
+        title: 'Elementos de Protección Personal (EPP)',
+        message: 'Es obligatorio el ingreso al taller con calzado de seguridad dieléctrico y guantes.',
+        date: '03/09/2026',
+        type: 'alerta',
       },
     ],
   },

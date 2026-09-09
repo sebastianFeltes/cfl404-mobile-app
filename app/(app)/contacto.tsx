@@ -10,6 +10,7 @@ import {
   Alert,
 } from 'react-native';
 import { Ionicons, FontAwesome6 } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 
 import { Palette, Typography } from '@/constants/theme';
 import { cflContactData } from '@/data/coursesData';
@@ -33,19 +34,23 @@ export default function ContactoScreen() {
       <ScrollView
         contentContainerStyle={styles.container}
         showsVerticalScrollIndicator={false}>
-        {/* Encabezado Institucional */}
-        <View style={styles.headerCard}>
-          <View style={styles.logoBadge}>
-            <Ionicons name="business" size={24} color={Palette.azul} />
+        {/* REQUERIMIENTO: Recuadro "Contacto Institucional" con degradé azul */}
+        <LinearGradient
+          colors={['#0C4A6E', Palette.azul, Palette.celeste]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.headerGradientCard}>
+          <View style={styles.logoBadgeWhite}>
+            <Ionicons name="business" size={26} color={Palette.azul} />
           </View>
-          <Text style={styles.titleBold}>Contacto Institucional</Text>
-          <Text style={styles.headerSubtitle}>
+          <Text style={styles.titleBoldWhite}>Contacto Institucional</Text>
+          <Text style={styles.headerSubtitleGold}>
             Centro de Formación Laboral N.º 404 — Sede Berisso
           </Text>
-          <Text style={styles.headerText}>
+          <Text style={styles.headerTextWhite}>
             Canales de comunicación oficiales para consultas de cursadas, certificados, preceptoría y trámites estudiantiles.
           </Text>
-        </View>
+        </LinearGradient>
 
         {/* Canales de Comunicación y Redes Sociales */}
         <View style={styles.sectionCard}>
@@ -237,44 +242,52 @@ const styles = StyleSheet.create({
     padding: 16,
     paddingBottom: 40,
   },
-  headerCard: {
-    backgroundColor: Palette.blanco,
-    borderRadius: 14,
-    padding: 20,
-    marginBottom: 16,
-    borderWidth: 1,
-    borderColor: Palette.border,
+  headerGradientCard: {
+    borderRadius: 16,
+    padding: 22,
+    marginBottom: 18,
     alignItems: 'center',
-    textAlign: 'center',
+    shadowColor: Palette.azul,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 4,
   },
-  logoBadge: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: '#EBF5FB',
+  logoBadgeWhite: {
+    width: 52,
+    height: 52,
+    borderRadius: 26,
+    backgroundColor: Palette.blanco,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 12,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
   },
-  titleBold: {
+  titleBoldWhite: {
     fontFamily: Typography.fontFamily.bold,
     fontWeight: 'bold',
     fontSize: 22,
-    color: Palette.grisOscuro,
+    color: Palette.blanco,
     marginBottom: 4,
     textAlign: 'center',
   },
-  headerSubtitle: {
-    fontFamily: Typography.fontFamily.semiBold,
+  headerSubtitleGold: {
+    fontFamily: Typography.fontFamily.bold,
+    fontWeight: 'bold',
     fontSize: 14,
-    color: Palette.azul,
+    color: Palette.amarillo,
     marginBottom: 10,
     textAlign: 'center',
   },
-  headerText: {
-    fontFamily: Typography.fontFamily.regular,
+  headerTextWhite: {
+    fontFamily: Typography.fontFamily.semiBold,
+    fontWeight: 'bold',
     fontSize: 13,
-    color: Palette.grisClaro,
+    color: '#E0F2FE',
     textAlign: 'center',
     lineHeight: 18,
   },

@@ -8,6 +8,7 @@ import {
   SafeAreaView,
   Linking,
   Alert,
+  Image,
 } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -96,30 +97,46 @@ export default function CursoDetalleScreen() {
       <ScrollView
         contentContainerStyle={styles.container}
         showsVerticalScrollIndicator={false}>
-        {/* Cabecera del Curso */}
+        {/* Cabecera del Curso con Imagen de Portada y Datos Importantes en Verde */}
         <View style={styles.headerCard}>
-          <View style={styles.statusBadgeRow}>
-            <View style={styles.statusPill}>
-              <View style={styles.statusDot} />
-              <Text style={styles.statusPillText}>{course.statusName}</Text>
-            </View>
-            <Text style={styles.cycleText}>Ciclo Lectivo 2026 • Alumno</Text>
+          {/* Imagen correspondiente del curso */}
+          <View style={styles.bannerImageContainer}>
+            <Image
+              source={course.image}
+              style={styles.bannerImage}
+              resizeMode="cover"
+            />
           </View>
 
-          <Text style={styles.courseName}>{course.name}</Text>
-          <Text style={styles.courseDescription}>{course.description}</Text>
-
-          {/* Docente */}
-          <View style={styles.instructorBox}>
-            <View style={styles.instructorAvatar}>
-              <Ionicons name="person" size={18} color={Palette.azul} />
+          <View style={styles.headerCardContent}>
+            {/* Información importante resaltada en verde */}
+            <View style={styles.statusBadgeRow}>
+              <View style={styles.statusPillGreen}>
+                <View style={styles.statusDotGreen} />
+                <Text style={styles.statusPillTextGreen}>{course.statusName}</Text>
+              </View>
+              <View style={styles.roleGreenBadge}>
+                <Ionicons name="checkmark-circle" size={13} color={Palette.success} />
+                <Text style={styles.roleGreenBadgeText}>Alumno Regular</Text>
+              </View>
+              <Text style={styles.cycleText}>Ciclo 2026</Text>
             </View>
-            <View style={styles.instructorDetails}>
-              <Text style={styles.instructorLabel}>DOCENTE A CARGO</Text>
-              <Text style={styles.instructorName}>
-                {course.instructor.firstName} {course.instructor.lastName}
-              </Text>
-              <Text style={styles.instructorEmail}>{course.instructor.email}</Text>
+
+            <Text style={styles.courseName}>{course.name}</Text>
+            <Text style={styles.courseDescription}>{course.description}</Text>
+
+            {/* Docente */}
+            <View style={styles.instructorBox}>
+              <View style={styles.instructorAvatar}>
+                <Ionicons name="person" size={18} color={Palette.azul} />
+              </View>
+              <View style={styles.instructorDetails}>
+                <Text style={styles.instructorLabel}>DOCENTE A CARGO</Text>
+                <Text style={styles.instructorName}>
+                  {course.instructor.firstName} {course.instructor.lastName}
+                </Text>
+                <Text style={styles.instructorEmail}>{course.instructor.email}</Text>
+              </View>
             </View>
           </View>
         </View>
@@ -272,7 +289,7 @@ export default function CursoDetalleScreen() {
                       styles.progressBarFill,
                       {
                         width: `${Math.min(100, Math.max(8, absenceRatio * 100))}%`,
-                        backgroundColor: isNearLimit ? Palette.danger : Palette.celeste,
+                        backgroundColor: isNearLimit ? Palette.danger : Palette.success,
                       },
                     ]}
                   />
@@ -284,10 +301,12 @@ export default function CursoDetalleScreen() {
                 </Text>
               </View>
 
-              {/* Desglose de Clases */}
+              {/* Desglose de Clases con Presentes en Verde */}
               <View style={styles.breakdownRow}>
                 <View style={styles.breakdownItem}>
-                  <Text style={styles.breakdownNumber}>{presentCount}</Text>
+                  <Text style={[styles.breakdownNumber, { color: Palette.success }]}>
+                    {presentCount}
+                  </Text>
                   <Text style={styles.breakdownLabel}>Presentes</Text>
                 </View>
                 <View style={styles.breakdownDivider} />
@@ -413,39 +432,70 @@ const styles = StyleSheet.create({
   },
   headerCard: {
     backgroundColor: Palette.blanco,
-    borderRadius: 14,
-    padding: 20,
+    borderRadius: 16,
     marginBottom: 20,
     borderWidth: 1,
     borderColor: Palette.border,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.04,
-    shadowRadius: 3,
-    elevation: 2,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 6,
+    elevation: 3,
+    overflow: 'hidden',
+  },
+  bannerImageContainer: {
+    width: '100%',
+    height: 180,
+    backgroundColor: '#E2E8F0',
+  },
+  bannerImage: {
+    width: '100%',
+    height: '100%',
+  },
+  headerCardContent: {
+    padding: 18,
   },
   statusBadgeRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 10,
+    gap: 8,
+    marginBottom: 12,
   },
-  statusPill: {
+  statusPillGreen: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#DCFCE7',
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 6,
+    borderWidth: 1,
+    borderColor: '#86EFAC',
   },
-  statusDot: {
+  statusDotGreen: {
     width: 6,
     height: 6,
     borderRadius: 3,
     backgroundColor: Palette.success,
     marginRight: 6,
   },
-  statusPillText: {
+  statusPillTextGreen: {
+    fontFamily: Typography.fontFamily.bold,
+    fontWeight: 'bold',
+    fontSize: 11,
+    color: Palette.success,
+  },
+  roleGreenBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#DCFCE7',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: '#86EFAC',
+    gap: 4,
+  },
+  roleGreenBadgeText: {
     fontFamily: Typography.fontFamily.bold,
     fontWeight: 'bold',
     fontSize: 11,
@@ -455,6 +505,7 @@ const styles = StyleSheet.create({
     fontFamily: Typography.fontFamily.semiBold,
     fontSize: 12,
     color: Palette.grisClaro,
+    marginLeft: 'auto',
   },
   courseName: {
     fontFamily: Typography.fontFamily.bold,
@@ -662,6 +713,8 @@ const styles = StyleSheet.create({
   },
   metricBadgeSuccess: {
     backgroundColor: '#DCFCE7',
+    borderWidth: 1,
+    borderColor: '#86EFAC',
   },
   metricBadgeDanger: {
     backgroundColor: '#FEE2E2',

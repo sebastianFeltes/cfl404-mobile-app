@@ -6,6 +6,7 @@ import {
   ScrollView,
   Pressable,
   SafeAreaView,
+  Image,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -26,59 +27,92 @@ export default function CursosIndexScreen() {
       <ScrollView
         contentContainerStyle={styles.container}
         showsVerticalScrollIndicator={false}>
-        {/* Cabecera de Alumno */}
+        {/* Cabecera de Alumno con información importante resaltada en verde y ventanas de estado sin encimarse */}
         <View style={styles.studentBanner}>
-          <View style={styles.studentInfo}>
-            <Text style={styles.studentGreeting}>
-              Cursadas de {currentStudent.firstName} {currentStudent.lastName}
-            </Text>
-            <Text style={styles.studentRoleBadge}>
-              ROL ALUMNO • {currentStudent.cycleLabel}
-            </Text>
+          <View style={styles.studentBannerHeader}>
+            <View style={styles.studentAvatarBox}>
+              <Ionicons name="person" size={20} color={Palette.azul} />
+            </View>
+            <View style={styles.studentHeaderDetails}>
+              <Text style={styles.studentGreeting}>
+                Cursadas de {currentStudent.firstName} {currentStudent.lastName}
+              </Text>
+              <Text style={styles.studentDniText}>
+                DNI: {currentStudent.dni} • Ciclo Lectivo {currentStudent.cycleLabel}
+              </Text>
+            </View>
           </View>
-          <View style={styles.badgeActive}>
-            <Text style={styles.badgeActiveText}>
-              {mockCourses.length} {mockCourses.length === 1 ? 'CURSO' : 'CURSOS'}
-            </Text>
+
+          {/* Ventanas de estado: Alumno Regular y Cursos Activos (separadas con espacio dedicado) */}
+          <View style={styles.statusWindowsRow}>
+            {/* Ventana Alumno Regular */}
+            <View style={styles.roleGreenBadge}>
+              <View style={styles.statusWindowHeader}>
+                <Ionicons name="checkmark-circle" size={15} color={Palette.success} />
+                <Text style={styles.roleGreenBadgeTag}>ESTADO</Text>
+              </View>
+              <Text style={styles.roleGreenBadgeText}>Alumno Regular</Text>
+              <Text style={styles.roleGreenBadgeSub}>{currentStudent.cycleLabel}</Text>
+            </View>
+
+            {/* Ventana Cursos Activos */}
+            <View style={styles.badgeActiveGreen}>
+              <View style={styles.statusWindowHeader}>
+                <Ionicons name="school" size={15} color={Palette.success} />
+                <Text style={styles.badgeActiveGreenTag}>CURSADAS</Text>
+              </View>
+              <Text style={styles.badgeActiveGreenText}>
+                {mockCourses.length} {mockCourses.length === 1 ? 'Curso Activo' : 'Cursos Activos'}
+              </Text>
+              <Text style={styles.badgeActiveGreenSub}>Inscripción 2026</Text>
+            </View>
           </View>
         </View>
 
-        {/* Sección de Notificaciones y Avisos de Cursada */}
+        {/* Sección de Avisos y Novedades sombreados de color amarillo */}
         {allNotifications.length > 0 && (
           <View style={styles.section}>
             <View style={styles.sectionHeader}>
-              <Ionicons name="notifications-outline" size={20} color={Palette.azul} />
+              <View style={styles.sectionIconYellowBox}>
+                <Ionicons name="notifications" size={18} color="#D97706" />
+              </View>
               <Text style={styles.sectionTitle}>Avisos y Novedades</Text>
             </View>
 
             {allNotifications.map((notif) => (
               <Pressable
                 key={notif.id}
-                style={styles.notificationCard}
+                style={styles.notificationCardYellow}
                 onPress={() => router.push(`/(app)/cursos/${notif.courseId}`)}>
                 <View style={styles.notificationHeader}>
-                  <View style={styles.notificationTag}>
-                    <Text style={styles.notificationTagText}>
+                  <View style={styles.notificationTagYellow}>
+                    <Ionicons name="alert-circle" size={11} color="#854D0E" style={{ marginRight: 3 }} />
+                    <Text style={styles.notificationTagYellowText}>
                       {notif.type.toUpperCase()}
                     </Text>
                   </View>
-                  <Text style={styles.notificationDate}>{notif.date}</Text>
+                  <Text style={styles.notificationDateYellow}>{notif.date}</Text>
                 </View>
                 <Text style={styles.notificationTitle}>{notif.title}</Text>
                 <Text style={styles.notificationMessage}>{notif.message}</Text>
-                <Text style={styles.notificationCourseName}>
-                  Curso: {notif.courseName}
-                </Text>
+                <View style={styles.notificationFooterRow}>
+                  <Text style={styles.notificationCourseName}>
+                    Curso: {notif.courseName}
+                  </Text>
+                  <Ionicons name="chevron-forward" size={14} color="#B45309" />
+                </View>
               </Pressable>
             ))}
           </View>
         )}
 
-        {/* Sección de Cursos Inscritos */}
+        {/* Sección de Cursos Inscritos con imágenes correspondientes y datos importantes en verde */}
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
-            <Ionicons name="school-outline" size={20} color={Palette.azul} />
-            <Text style={styles.sectionTitle}>Cursos Activos</Text>
+            <View style={styles.sectionIconBlueBox}>
+              <Ionicons name="school" size={18} color={Palette.azul} />
+            </View>
+            <Text style={styles.sectionTitle}>Mis Cursos Asignados</Text>
           </View>
 
           {mockCourses.map((course) => {
@@ -92,63 +126,86 @@ export default function CursosIndexScreen() {
                   pressed && styles.courseCardPressed,
                 ]}
                 onPress={() => router.push(`/(app)/cursos/${course.id}`)}>
-                {/* Cabecera de la tarjeta */}
-                <View style={styles.cardHeader}>
-                  <View style={styles.statusPill}>
-                    <View style={styles.statusDot} />
-                    <Text style={styles.statusText}>{course.statusName}</Text>
+                {/* Imagen correspondiente al curso */}
+                <View style={styles.imageWrapper}>
+                  <Image
+                    source={course.image}
+                    style={styles.courseBannerImage}
+                    resizeMode="cover"
+                  />
+                  {/* Badges sobre la imagen */}
+                  <View style={styles.imageOverlayRow}>
+                    {/* Información importante resaltada en verde */}
+                    <View style={styles.statusPillGreen}>
+                      <View style={styles.statusDotGreen} />
+                      <Text style={styles.statusTextGreen}>{course.statusName}</Text>
+                    </View>
+
+                    <View style={styles.regularBadgeGreen}>
+                      <Ionicons name="shield-checkmark" size={12} color={Palette.success} />
+                      <Text style={styles.regularBadgeGreenText}>Regular</Text>
+                    </View>
                   </View>
-                  <View
-                    style={[
-                      styles.absencePill,
-                      isNearLimit ? styles.absencePillWarning : styles.absencePillNormal,
-                    ]}>
-                    <Ionicons
-                      name={isNearLimit ? 'alert-circle-outline' : 'checkmark-circle-outline'}
-                      size={14}
-                      color={isNearLimit ? Palette.warning : Palette.azul}
-                      style={{ marginRight: 4 }}
-                    />
-                    <Text
+                </View>
+
+                {/* Contenido de la tarjeta */}
+                <View style={styles.courseBody}>
+                  {/* Título del curso */}
+                  <Text style={styles.courseTitle}>{course.name}</Text>
+                  <Text style={styles.instructorText}>
+                    Docente:{' '}
+                    <Text style={styles.instructorBold}>
+                      {course.instructor.firstName} {course.instructor.lastName}
+                    </Text>
+                  </Text>
+
+                  {/* Resumen de inasistencias resaltado con verde si está al día */}
+                  <View style={styles.importantInfoRow}>
+                    <View
                       style={[
-                        styles.absencePillText,
-                        isNearLimit && { color: Palette.warning },
+                        styles.absencePill,
+                        isNearLimit ? styles.absencePillWarning : styles.absencePillGreen,
                       ]}>
-                      Faltas: {course.absenceCount} / {course.maxAbsences}
+                      <Ionicons
+                        name={isNearLimit ? 'alert-circle' : 'checkmark-circle'}
+                        size={15}
+                        color={isNearLimit ? Palette.warning : Palette.success}
+                        style={{ marginRight: 5 }}
+                      />
+                      <Text
+                        style={[
+                          styles.absencePillText,
+                          isNearLimit
+                            ? { color: Palette.warning }
+                            : styles.absencePillTextGreen,
+                        ]}>
+                        Faltas: {course.absenceCount} / {course.maxAbsences} ({course.maxAbsences - course.absenceCount} disponibles)
+                      </Text>
+                    </View>
+                  </View>
+
+                  {/* Info rápida: Días, Horarios y Aula */}
+                  <View style={styles.metaContainer}>
+                    <View style={styles.metaRow}>
+                      <Ionicons name="calendar-outline" size={15} color={Palette.grisClaro} />
+                      <Text style={styles.metaText}>
+                        {course.days.join(' y ')} • {course.startTime} a {course.endTime} hs
+                      </Text>
+                    </View>
+                    <View style={styles.metaRow}>
+                      <Ionicons name="location-outline" size={15} color={Palette.grisClaro} />
+                      <Text style={styles.metaText}>{course.classroom}</Text>
+                    </View>
+                  </View>
+
+                  {/* Footer de la tarjeta */}
+                  <View style={styles.cardFooter}>
+                    <Text style={styles.cardFooterHint}>
+                      Ver asistencia, recursos y grupo de WhatsApp
                     </Text>
-                  </View>
-                </View>
-
-                {/* Título y Docente */}
-                <Text style={styles.courseTitle}>{course.name}</Text>
-                <Text style={styles.instructorText}>
-                  Docente:{' '}
-                  <Text style={styles.instructorBold}>
-                    {course.instructor.firstName} {course.instructor.lastName}
-                  </Text>
-                </Text>
-
-                {/* Info rápida: Días, Horarios y Aula */}
-                <View style={styles.metaContainer}>
-                  <View style={styles.metaRow}>
-                    <Ionicons name="calendar-outline" size={15} color={Palette.grisClaro} />
-                    <Text style={styles.metaText}>
-                      {course.days.join(' y ')} • {course.startTime} a {course.endTime} hs
-                    </Text>
-                  </View>
-                  <View style={styles.metaRow}>
-                    <Ionicons name="location-outline" size={15} color={Palette.grisClaro} />
-                    <Text style={styles.metaText}>{course.classroom}</Text>
-                  </View>
-                </View>
-
-                {/* Footer de la tarjeta con acción clara */}
-                <View style={styles.cardFooter}>
-                  <Text style={styles.cardFooterHint}>
-                    Ver historial de asistencia, recursos y grupo
-                  </Text>
-                  <View style={styles.cardArrow}>
-                    <Ionicons name="arrow-forward" size={16} color={Palette.azul} />
+                    <View style={styles.cardArrow}>
+                      <Ionicons name="arrow-forward" size={16} color={Palette.azul} />
+                    </View>
                   </View>
                 </View>
               </Pressable>
@@ -178,16 +235,32 @@ const styles = StyleSheet.create({
   },
   studentBanner: {
     backgroundColor: Palette.blanco,
-    borderRadius: 12,
+    borderRadius: 14,
     padding: 16,
     marginBottom: 20,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
     borderWidth: 1,
     borderColor: Palette.border,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.04,
+    shadowRadius: 4,
+    elevation: 2,
   },
-  studentInfo: {
+  studentBannerHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  studentAvatarBox: {
+    width: 38,
+    height: 38,
+    borderRadius: 19,
+    backgroundColor: '#EBF5FB',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 12,
+  },
+  studentHeaderDetails: {
     flex: 1,
   },
   studentGreeting: {
@@ -195,27 +268,81 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: Palette.grisOscuro,
-    marginBottom: 4,
   },
-  studentRoleBadge: {
-    fontFamily: Typography.fontFamily.semiBold,
+  studentDniText: {
+    fontFamily: Typography.fontFamily.regular,
     fontSize: 12,
     color: Palette.grisClaro,
-    letterSpacing: 0.5,
+    marginTop: 2,
   },
-  badgeActive: {
-    backgroundColor: '#EBF5FB',
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    borderRadius: 8,
+  /* Fila de Ventanas de Estado: Alumno Regular y Cursos Activos separadas y sin superposición */
+  statusWindowsRow: {
+    flexDirection: 'row',
+    gap: 10,
+  },
+  /* Ventana Alumno Regular resaltada en verde */
+  roleGreenBadge: {
+    flex: 1,
+    backgroundColor: '#DCFCE7',
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    borderRadius: 10,
     borderWidth: 1,
-    borderColor: '#D4E6F1',
+    borderColor: '#86EFAC',
   },
-  badgeActiveText: {
+  statusWindowHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    marginBottom: 3,
+  },
+  roleGreenBadgeTag: {
     fontFamily: Typography.fontFamily.bold,
     fontWeight: 'bold',
+    fontSize: 10,
+    color: Palette.success,
+    letterSpacing: 0.4,
+  },
+  roleGreenBadgeText: {
+    fontFamily: Typography.fontFamily.bold,
+    fontWeight: 'bold',
+    fontSize: 13,
+    color: Palette.grisOscuro,
+  },
+  roleGreenBadgeSub: {
+    fontFamily: Typography.fontFamily.regular,
     fontSize: 11,
-    color: Palette.azul,
+    color: Palette.grisClaro,
+    marginTop: 1,
+  },
+  /* Ventana Cursos Activos resaltada en verde */
+  badgeActiveGreen: {
+    flex: 1,
+    backgroundColor: '#DCFCE7',
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#86EFAC',
+  },
+  badgeActiveGreenTag: {
+    fontFamily: Typography.fontFamily.bold,
+    fontWeight: 'bold',
+    fontSize: 10,
+    color: Palette.success,
+    letterSpacing: 0.4,
+  },
+  badgeActiveGreenText: {
+    fontFamily: Typography.fontFamily.bold,
+    fontWeight: 'bold',
+    fontSize: 13,
+    color: Palette.grisOscuro,
+  },
+  badgeActiveGreenSub: {
+    fontFamily: Typography.fontFamily.regular,
+    fontSize: 11,
+    color: Palette.grisClaro,
+    marginTop: 1,
   },
   section: {
     marginBottom: 24,
@@ -225,22 +352,47 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 12,
   },
+  sectionIconYellowBox: {
+    width: 28,
+    height: 28,
+    borderRadius: 7,
+    backgroundColor: '#FEF3C7',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 8,
+  },
+  sectionIconBlueBox: {
+    width: 28,
+    height: 28,
+    borderRadius: 7,
+    backgroundColor: '#EBF5FB',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 8,
+  },
   sectionTitle: {
     fontFamily: Typography.fontFamily.bold,
     fontSize: 18,
     fontWeight: 'bold',
     color: Palette.grisOscuro,
-    marginLeft: 8,
   },
-  notificationCard: {
-    backgroundColor: Palette.blanco,
-    borderRadius: 10,
-    padding: 14,
-    marginBottom: 10,
-    borderWidth: 1,
-    borderColor: Palette.border,
-    borderLeftWidth: 4,
-    borderLeftColor: Palette.celeste,
+
+  /* RECUADROS DE AVISOS Y NOVEDADES SOMBREADOS DE COLOR AMARILLO */
+  notificationCardYellow: {
+    backgroundColor: '#FEFCE8', // fondo suave amarillo
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 12,
+    borderWidth: 1.5,
+    borderColor: '#FACC15', // borde amarillo nítido
+    borderLeftWidth: 5,
+    borderLeftColor: '#EAB308', // acento dorado fuerte
+    // SOMBRA DE COLOR AMARILLO
+    shadowColor: '#EAB308',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.38,
+    shadowRadius: 8,
+    elevation: 5,
   },
   notificationHeader: {
     flexDirection: 'row',
@@ -248,97 +400,176 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 6,
   },
-  notificationTag: {
-    backgroundColor: '#E0F2FE',
+  notificationTagYellow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FEF08A',
     paddingHorizontal: 8,
-    paddingVertical: 2,
+    paddingVertical: 3,
     borderRadius: 4,
+    borderWidth: 1,
+    borderColor: '#FDE047',
   },
-  notificationTagText: {
+  notificationTagYellowText: {
     fontFamily: Typography.fontFamily.bold,
     fontWeight: 'bold',
     fontSize: 10,
-    color: Palette.azul,
+    color: '#854D0E',
   },
-  notificationDate: {
-    fontFamily: Typography.fontFamily.regular,
+  notificationDateYellow: {
+    fontFamily: Typography.fontFamily.semiBold,
     fontSize: 12,
-    color: Palette.grisClaro,
+    color: '#92400E',
   },
   notificationTitle: {
     fontFamily: Typography.fontFamily.bold,
     fontWeight: 'bold',
     fontSize: 15,
-    color: Palette.grisOscuro,
+    color: '#78350F',
     marginBottom: 4,
   },
   notificationMessage: {
     fontFamily: Typography.fontFamily.regular,
     fontSize: 13,
-    color: Palette.grisOscuro,
+    color: '#451A03',
     lineHeight: 18,
-    marginBottom: 6,
+    marginBottom: 8,
+  },
+  notificationFooterRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingTop: 6,
+    borderTopWidth: 1,
+    borderTopColor: '#FEF08A',
   },
   notificationCourseName: {
     fontFamily: Typography.fontFamily.semiBold,
     fontSize: 12,
-    color: Palette.azul,
+    color: '#B45309',
   },
+
+  /* Tarjetas de cursos */
   courseCard: {
     backgroundColor: Palette.blanco,
-    borderRadius: 14,
-    padding: 18,
-    marginBottom: 16,
+    borderRadius: 16,
+    marginBottom: 20,
     borderWidth: 1,
     borderColor: Palette.border,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.04,
-    shadowRadius: 3,
-    elevation: 2,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.06,
+    shadowRadius: 6,
+    elevation: 3,
+    overflow: 'hidden',
   },
   courseCardPressed: {
-    opacity: 0.94,
+    opacity: 0.95,
     transform: [{ scale: 0.995 }],
   },
-  cardHeader: {
+  imageWrapper: {
+    width: '100%',
+    height: 150,
+    position: 'relative',
+    backgroundColor: '#E2E8F0',
+  },
+  courseBannerImage: {
+    width: '100%',
+    height: '100%',
+  },
+  imageOverlayRow: {
+    position: 'absolute',
+    top: 10,
+    left: 10,
+    right: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 10,
   },
-  statusPill: {
+  /* Badges en verde resaltado */
+  statusPillGreen: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#DCFCE7',
-    paddingHorizontal: 8,
+    paddingHorizontal: 9,
     paddingVertical: 4,
     borderRadius: 6,
+    borderWidth: 1,
+    borderColor: '#86EFAC',
   },
-  statusDot: {
+  statusDotGreen: {
     width: 6,
     height: 6,
     borderRadius: 3,
     backgroundColor: Palette.success,
     marginRight: 6,
   },
-  statusText: {
+  statusTextGreen: {
     fontFamily: Typography.fontFamily.bold,
     fontWeight: 'bold',
     fontSize: 11,
     color: Palette.success,
   },
-  absencePill: {
+  regularBadgeGreen: {
     flexDirection: 'row',
     alignItems: 'center',
+    backgroundColor: '#DCFCE7',
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 6,
     borderWidth: 1,
+    borderColor: '#86EFAC',
+    gap: 4,
   },
-  absencePillNormal: {
-    backgroundColor: '#F1F5F9',
-    borderColor: Palette.border,
+  regularBadgeGreenText: {
+    fontFamily: Typography.fontFamily.bold,
+    fontWeight: 'bold',
+    fontSize: 11,
+    color: Palette.success,
+  },
+  courseBody: {
+    padding: 16,
+  },
+  courseTitle: {
+    fontFamily: Typography.fontFamily.bold,
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: Palette.grisOscuro,
+    marginBottom: 4,
+    lineHeight: 23,
+  },
+  instructorText: {
+    fontFamily: Typography.fontFamily.regular,
+    fontSize: 13,
+    color: Palette.grisClaro,
+    marginBottom: 10,
+  },
+  instructorBold: {
+    fontFamily: Typography.fontFamily.semiBold,
+    color: Palette.grisOscuro,
+  },
+
+  /* Resaltado verde de información importante */
+  importantInfoRow: {
+    marginBottom: 12,
+  },
+  absencePill: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 8,
+    borderWidth: 1,
+  },
+  absencePillGreen: {
+    backgroundColor: '#DCFCE7',
+    borderColor: '#86EFAC',
+  },
+  absencePillTextGreen: {
+    color: Palette.success,
+    fontFamily: Typography.fontFamily.bold,
+    fontWeight: 'bold',
+    fontSize: 12,
   },
   absencePillWarning: {
     backgroundColor: '#FEF3C7',
@@ -346,27 +577,10 @@ const styles = StyleSheet.create({
   },
   absencePillText: {
     fontFamily: Typography.fontFamily.semiBold,
-    fontSize: 11,
-    color: Palette.azul,
-  },
-  courseTitle: {
-    fontFamily: Typography.fontFamily.bold,
-    fontSize: 17,
-    fontWeight: 'bold',
-    color: Palette.grisOscuro,
-    marginBottom: 6,
-    lineHeight: 22,
-  },
-  instructorText: {
-    fontFamily: Typography.fontFamily.regular,
-    fontSize: 13,
-    color: Palette.grisClaro,
-    marginBottom: 12,
-  },
-  instructorBold: {
-    fontFamily: Typography.fontFamily.semiBold,
+    fontSize: 12,
     color: Palette.grisOscuro,
   },
+
   metaContainer: {
     backgroundColor: Palette.surfaceSubtle,
     borderRadius: 8,
