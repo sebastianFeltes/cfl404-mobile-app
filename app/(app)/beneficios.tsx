@@ -170,11 +170,11 @@ export default function BeneficiosScreen() {
                       </View>
                     )}
 
-                    {/* Horarios */}
+                    {/* Horarios con texto en verde */}
                     {item.horario && (
-                      <View style={styles.metaRow}>
-                        <Ionicons name="time-outline" size={16} color={CflColors.grisClaro} />
-                        <Text style={styles.metaText}>{item.horario}</Text>
+                      <View style={styles.horarioRow}>
+                        <Ionicons name="time-outline" size={16} color={CflColors.exito} />
+                        <Text style={styles.horarioText}>{item.horario}</Text>
                       </View>
                     )}
 
@@ -406,15 +406,22 @@ const styles = StyleSheet.create({
     color: CflColors.grisOscuro,
     fontWeight: '500',
   },
-  metaRow: {
+  horarioRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
     marginBottom: 16,
+    backgroundColor: '#F0FDF4',
+    paddingHorizontal: 12,
+    paddingVertical: 7,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#BBF7D0',
   },
-  metaText: {
+  horarioText: {
     fontSize: 12,
-    color: CflColors.grisClaro,
+    color: '#15803D',
+    fontWeight: '700',
   },
   blueButton: {
     backgroundColor: CflColors.azul,
