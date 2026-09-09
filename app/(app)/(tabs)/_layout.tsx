@@ -5,11 +5,11 @@
  * Se comparte el CustomAppHeader en las pantallas del tab group.
  */
 
-import React from 'react';
-import { Tabs } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
-import { Colors, Fonts } from '@/constants/theme';
-import { CustomAppHeader } from '@/components/CustomAppHeader';
+import { CustomAppHeader } from "@/components/CustomAppHeader";
+import { Colors, Fonts } from "@/constants/theme";
+import { Ionicons } from "@expo/vector-icons";
+import { Tabs } from "expo-router";
+import React from "react";
 
 export default function TabLayout() {
   return (
@@ -20,7 +20,7 @@ export default function TabLayout() {
         tabBarInactiveTintColor: Colors.grisClaro,
         tabBarStyle: {
           backgroundColor: Colors.blanco,
-          borderTopColor: '#E2E8F0',
+          borderTopColor: "#E2E8F0",
           borderTopWidth: 1,
           height: 60,
           paddingBottom: 8,
@@ -29,7 +29,7 @@ export default function TabLayout() {
         tabBarLabelStyle: {
           fontFamily: Fonts.body,
           fontSize: 12,
-          fontWeight: '500',
+          fontWeight: "500",
         },
       }}
     >
@@ -37,8 +37,8 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Inicio',
-          tabBarItemStyle: { display: 'none' }, // Oculto en la barra inferior
+          title: "Inicio",
+          tabBarItemStyle: { display: "none" }, // Oculto en la barra inferior
         }}
       />
 
@@ -46,10 +46,10 @@ export default function TabLayout() {
       <Tabs.Screen
         name="beneficios"
         options={{
-          title: 'Beneficios',
+          title: "Beneficios",
           tabBarIcon: ({ color, size, focused }) => (
             <Ionicons
-              name={focused ? 'bag' : 'bag-outline'}
+              name={focused ? "bag" : "bag-outline"}
               size={size || 24}
               color={color}
             />
@@ -61,11 +61,11 @@ export default function TabLayout() {
       <Tabs.Screen
         name="asistencia"
         options={{
-          title: 'Credencial',
+          title: "Credencial",
           headerShown: false, // La credencial tiene su propio layout de pantalla completa azul
           tabBarIcon: ({ color, size, focused }) => (
             <Ionicons
-              name={focused ? 'qr-code' : 'qr-code-outline'}
+              name={focused ? "qr-code" : "qr-code-outline"}
               size={(size || 24) + 4}
               color={focused ? Colors.azul : color}
             />
@@ -77,10 +77,10 @@ export default function TabLayout() {
       <Tabs.Screen
         name="cooperadora"
         options={{
-          title: 'Cooperadora',
+          title: "Cooperadora",
           tabBarIcon: ({ color, size, focused }) => (
             <Ionicons
-              name={focused ? 'heart' : 'heart-outline'}
+              name={focused ? "heart" : "heart-outline"}
               size={size || 24}
               color={color}
             />
