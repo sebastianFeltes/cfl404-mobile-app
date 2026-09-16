@@ -381,7 +381,7 @@ export default function CursoDetalleScreen() {
               </View>
               <Pressable
                 style={styles.qrShortcutButton}
-                onPress={() => router.push('/(app)/asistencia')}>
+                onPress={() => router.push('/(app)/(tabs)/asistencia')}>
                 <Text style={styles.qrShortcutButtonText}>Ver QR</Text>
               </Pressable>
             </View>

@@ -1,86 +1,65 @@
-import React from 'react';
-import { Tabs } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
-import { Platform } from 'react-native';
+/**
+ * App Layout — Drawer de la aplicación post-login.
+ * Contiene el Tabs layout como pantalla principal, además de pantallas del menú hamburguesa.
+ */
 
-import { HapticTab } from '@/components/haptic-tab';
-import { Palette, Typography } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
+import { Drawer } from 'expo-router/drawer';
+import { CustomDrawerContent } from '@/components/CustomDrawerContent';
+import { CustomAppHeader } from '@/components/CustomAppHeader';
+import { Colors } from '@/constants/theme';
 
-export default function AppTabsLayout() {
-  const colorScheme = useColorScheme();
-  const isDark = colorScheme === 'dark';
-
+export default function AppLayout() {
   return (
-    <Tabs
+    <Drawer
+      drawerContent={(props) => <CustomDrawerContent {...props} />}
       screenOptions={{
         headerShown: false,
-        tabBarButton: HapticTab,
-        tabBarActiveTintColor: Palette.azul,
-        tabBarInactiveTintColor: Palette.grisClaro,
-        tabBarStyle: {
-          backgroundColor: isDark ? '#1E293B' : Palette.blanco,
-          borderTopColor: isDark ? '#334155' : Palette.border,
-          borderTopWidth: 1,
-          height: Platform.OS === 'ios' ? 88 : 64,
-          paddingBottom: Platform.OS === 'ios' ? 28 : 10,
-          paddingTop: 8,
-          elevation: 4,
-          shadowColor: '#000',
-          shadowOffset: { width: 0, height: -2 },
-          shadowOpacity: 0.05,
-          shadowRadius: 4,
-        },
-        tabBarLabelStyle: {
-          fontFamily: Typography.fontFamily.semiBold,
-          fontSize: 11,
-        },
-      }}>
-      <Tabs.Screen
-        name="index"
+        drawerActiveTintColor: Colors.azul,
+        drawerInactiveTintColor: Colors.grisOscuro,
+        drawerPosition: 'right', // Se abre desde la derecha donde está el icono hamburguesa
+        swipeEdgeWidth: 50,
+      }}
+    >
+      <Drawer.Screen
+        name="(tabs)"
         options={{
-          title: 'Inicio',
-          tabBarIcon: ({ color, focused }) => (
-            <Ionicons name={focused ? 'home' : 'home-outline'} size={22} color={color} />
-          ),
+          drawerItemStyle: { display: 'none' }, // No mostrar tabs como item en el drawer
         }}
       />
-      <Tabs.Screen
-        name="cursos"
+      <Drawer.Screen
+        name="perfil"
         options={{
-          title: 'Cursos',
-          tabBarIcon: ({ color, focused }) => (
-            <Ionicons name={focused ? 'school' : 'school-outline'} size={22} color={color} />
-          ),
+          title: 'Mi Perfil',
+          headerShown: true,
+          header: () => <CustomAppHeader />,
+          drawerItemStyle: { display: 'none' },
         }}
       />
-      <Tabs.Screen
-        name="asistencia"
-        options={{
-          title: 'Credencial',
-          tabBarIcon: ({ color, focused }) => (
-            <Ionicons name={focused ? 'qr-code' : 'qr-code-outline'} size={22} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="contacto"
-        options={{
-          title: 'Contacto',
-          tabBarIcon: ({ color, focused }) => (
-            <Ionicons name={focused ? 'chatbubbles' : 'chatbubbles-outline'} size={22} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
+      <Drawer.Screen
         name="ayuda"
         options={{
           title: 'Ayuda',
-          tabBarIcon: ({ color, focused }) => (
-            <Ionicons name={focused ? 'help-circle' : 'help-circle-outline'} size={22} color={color} />
-          ),
+          headerShown: true,
+          header: () => <CustomAppHeader />,
+          drawerItemStyle: { display: 'none' },
         }}
       />
-    </Tabs>
+      <Drawer.Screen
+        name="contacto"
+        options={{
+          title: 'Contacto Institucional',
+          headerShown: true,
+          header: () => <CustomAppHeader />,
+          drawerItemStyle: { display: 'none' },
+        }}
+      />
+      <Drawer.Screen
+        name="cursos"
+        options={{
+          drawerItemStyle: { display: 'none' },
+        }}
+      />
+    </Drawer>
   );
 }
+

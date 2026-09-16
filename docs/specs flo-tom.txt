@@ -1,0 +1,18 @@
+nosotros hacemos: rama flo-tom
+- dashboard
+- asistencia (QR)
+
+- tenemos la estructura principal del dashboard y de la credencial
+- modificaciones:
+	- fondo del header: pintarlo de azul
+	- cambiar el logo (ahora dice cfl 404) y poner el del cfl
+	- pintar el fondo del drawer de azul, con letra e iconos blancos
+
+
+
+
+
+
+
+credencial:
+	- el qr se genera a partir del codigo de asistencia (attendance_token) que se carga al hacer login 

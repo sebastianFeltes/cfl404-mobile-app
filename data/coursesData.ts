@@ -81,8 +81,8 @@ export const currentStudent: StudentProfile = {
 
 export const mockCourses: Course[] = [
   {
-    id: 'desarrollo-apps-moviles',
-    name: 'Desarrollo de Aplicaciones Móviles',
+    id: 'cfl-curso-01',
+    name: 'Programación de Apps Móviles',
     image: require('@/assets/images/Desarrollador App moviles.jpg'),
     statusId: 1,
     statusName: 'ACTIVO',
@@ -187,9 +187,9 @@ export const mockCourses: Course[] = [
     ],
   },
   {
-    id: 'programacion-web-fullstack',
-    name: 'Base de Datos y Programación Web',
-    image: require('@/assets/images/Base de Datos y Programación.jpg'),
+    id: 'cfl-curso-02',
+    name: 'Diseño UX/UI para Aplicaciones',
+    image: require('@/assets/images/diseno_grafico_1785797572237.png'),
     statusId: 1,
     statusName: 'ACTIVO',
     startDate: '11/03/2026',
@@ -200,7 +200,7 @@ export const mockCourses: Course[] = [
     classroom: 'Aula 2 (Sector Talleres)',
     instructor: {
       firstName: 'Mariana',
-      lastName: 'Gómez',
+      lastName: 'López',
       email: 'mgomez@cfl404.edu.ar',
     },
     hourQuantity: 220,
@@ -209,7 +209,7 @@ export const mockCourses: Course[] = [
     quota: 30,
     endorsementBy: 'IPFL Provincia de Buenos Aires',
     description:
-      'Desarrollo de aplicaciones web dinámicas y bases de datos relacionales: Node.js, Express, PostgreSQL, diseño de esquemas y frontend moderno.',
+      'Fundamentos de diseño centrado en el usuario, prototipado interactivo y sistemas de diseño para aplicaciones móviles y web.',
     whatsappGroupUrl: 'https://chat.whatsapp.com/CFL404FullStack2026',
     resourcesUrl: 'https://drive.google.com/drive/folders/cfl404-fullstack',
     maxAbsences: 10,
@@ -258,8 +258,8 @@ export const mockCourses: Course[] = [
     ],
   },
   {
-    id: 'montador-electricista',
-    name: 'Montador Electricista',
+    id: 'cfl-curso-03',
+    name: 'Electricidad Industrial y Automatización',
     image: require('@/assets/images/Montador Electricista.jpg'),
     statusId: 1,
     statusName: 'ACTIVO',

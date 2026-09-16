@@ -1,36 +1,25 @@
-import React from 'react';
-import { Stack } from 'expo-router';
-import { Palette, Typography } from '@/constants/theme';
+/**
+ * Cursos List Layout / Stack — CFL 404 Mobile
+ */
 
-export default function CursosStackLayout() {
+import { Stack } from 'expo-router';
+import { Colors } from '@/constants/theme';
+
+export default function CursosLayout() {
   return (
     <Stack
       screenOptions={{
-        headerStyle: {
-          backgroundColor: Palette.azul,
-        },
-        headerTintColor: Palette.blanco,
+        headerShown: true,
+        headerTintColor: Colors.azul,
         headerTitleStyle: {
-          fontFamily: Typography.fontFamily.bold,
-          fontSize: 18,
+          fontWeight: 'bold',
         },
-        headerShadowVisible: false,
-      }}>
-      <Stack.Screen
-        name="index"
-        options={{
-          title: 'Mis Cursos',
-          headerTitleAlign: 'center',
-        }}
-      />
-      <Stack.Screen
-        name="[id]"
-        options={{
-          title: 'Detalle de Cursada',
-          headerTitleAlign: 'center',
-          headerBackTitle: 'Cursos',
-        }}
-      />
+        contentStyle: { backgroundColor: Colors.blanco },
+      }}
+    >
+      <Stack.Screen name="index" options={{ title: 'Mis Cursos' }} />
+      <Stack.Screen name="[id]" options={{ title: 'Detalle de Curso' }} />
     </Stack>
   );
 }
+
