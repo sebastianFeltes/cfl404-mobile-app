@@ -6,6 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
+import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { CflColors } from '@/constants/theme';
 import { MOCK_CURSOS, MOCK_NOTIFICACIONES, CourseItem, CourseNotification } from '@/constants/mocks';
@@ -13,6 +14,7 @@ import { MOCK_CURSOS, MOCK_NOTIFICACIONES, CourseItem, CourseNotification } from
 type TabType = 'cursos' | 'notificaciones';
 
 export default function CursosScreen() {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState<TabType>('cursos');
 
   const formatNotificationDate = (isoDate: string) => {
@@ -101,7 +103,17 @@ export default function CursosScreen() {
               );
 
               return (
-                <View key={item.userCourseId} style={styles.courseCard}>
+                <TouchableOpacity
+                  key={item.userCourseId}
+                  style={styles.courseCard}
+                  activeOpacity={0.85}
+                  onPress={() =>
+                    router.push({
+                      pathname: '/(app)/cursos/[id]',
+                      params: { id: item.course.id },
+                    })
+                  }
+                >
                   {/* Cabecera de la tarjeta */}
                   <View style={styles.cardHeader}>
                     <View style={styles.courseTitleContainer}>
@@ -191,7 +203,7 @@ export default function CursosScreen() {
                       <Text style={styles.courseAlertText}>{item.notification}</Text>
                     </View>
                   )}
-                </View>
+                </TouchableOpacity>
               );
             })}
           </View>

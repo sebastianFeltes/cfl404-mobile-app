@@ -1,67 +1,74 @@
 /**
- * Tokens de color y diseño para la app CFL 404 (ciclo 2026).
- * Fuente de verdad: docs/producto.md y docs/specs-iniciales.txt
+ * Tokens de diseño — CFL 404 Mobile
+ * Paleta y tipografía institucional (solo light mode).
  */
 
-import { Platform } from 'react-native';
-
-/** Paleta institucional oficial del CFL 404 */
-export const CflColors = {
-  azul: '#166193',        // Primario, headers, botones principales
-  celeste: '#37A6DE',     // Acentos, links, tab/estado activo
-  amarillo: '#FDEA14',    // Destacados, badges, CTAs secundarios
-  grisOscuro: '#1D1E1C',  // Texto principal
-  grisClaro: '#585856',   // Texto secundario, bordes sutiles, captions
-  blanco: '#FFFFFF',      // Fondos de tarjeta, texto sobre azul
-  fondo: '#F8FAFC',       // Fondo de pantallas general (limpio y minimalista)
-  superficie: '#FFFFFF',  // Superficie de tarjetas y modales
-  borde: '#E2E8F0',       // Bordes sutiles de separadores
-  bordeActivo: '#37A6DE', // Borde de inputs en foco
-  exito: '#16A34A',       // Estados positivos / presente
-  peligro: '#DC2626',     // Inasistencias críticas / errores
-  alerta: '#D97706',      // Advertencias / tardanzas
+export const Colors = {
+  azul: '#166193',       // Primario, header, botones principales
+  celeste: '#37A6DE',    // Acentos, links, tab/estado activo
+  amarillo: '#FDEA14',   // Destacados, CTAs secundarios, badges
+  grisOscuro: '#1D1E1C', // Texto principal
+  grisClaro: '#585856',  // Texto secundario, bordes, captions
+  blanco: '#FFFFFF',     // Fondos, texto sobre azul
+  fondo: '#F8FAFC',      // Fondo de pantallas
+  superficie: '#FFFFFF', // Superficie de tarjetas
+  borde: '#E2E8F0',      // Bordes y separadores
+  bordeActivo: '#37A6DE',// Borde activo / foco
+  exito: '#16A34A',      // Estados positivos / presente
+  peligro: '#DC2626',    // Inasistencias críticas / errores
+  alerta: '#D97706',     // Advertencias
 } as const;
 
-export const Colors = {
-  light: {
-    text: CflColors.grisOscuro,
-    background: CflColors.fondo,
-    tint: CflColors.azul,
-    icon: CflColors.grisClaro,
-    tabIconDefault: CflColors.grisClaro,
-    tabIconSelected: CflColors.azul,
-    card: CflColors.blanco,
-    border: CflColors.borde,
-  },
-  dark: {
-    text: '#ECEDEE',
-    background: '#151718',
-    tint: CflColors.celeste,
-    icon: '#9BA1A6',
-    tabIconDefault: '#9BA1A6',
-    tabIconSelected: CflColors.celeste,
-    card: '#1F2428',
-    border: '#2D3339',
-  },
-};
+/** Alias usado por las pantallas de perfil, beneficios y mis cursos (jua-tiz). */
+export const CflColors = Colors;
 
-export const Fonts = Platform.select({
-  ios: {
-    sans: 'system-ui',
-    serif: 'ui-serif',
-    rounded: 'ui-rounded',
-    mono: 'ui-monospace',
+export const Fonts = {
+  body: 'RobotoFlex_400Regular',
+  title: 'Nunito_700Bold',
+} as const;
+
+/** Alias de paleta usado por detalle de curso, ayuda y contacto (gas-tiz). */
+export const Palette = {
+  azul: Colors.azul,
+  celeste: Colors.celeste,
+  amarillo: Colors.amarillo,
+  grisOscuro: Colors.grisOscuro,
+  grisClaro: Colors.grisClaro,
+  blanco: Colors.blanco,
+  background: Colors.fondo,
+  surface: Colors.superficie,
+  surfaceSubtle: '#F1F5F9',
+  border: Colors.borde,
+  borderDark: '#CBD5E1',
+  success: '#15803D',
+  successLight: '#DCFCE7',
+  warning: Colors.alerta,
+  warningLight: '#FEF3C7',
+  danger: Colors.peligro,
+  dangerLight: '#FEE2E2',
+  info: '#0284C7',
+  infoLight: '#E0F2FE',
+} as const;
+
+export const Typography = {
+  fontFamily: {
+    regular: Fonts.body,
+    semiBold: Fonts.title,
+    bold: Fonts.title,
+    extraBold: Fonts.title,
   },
-  default: {
-    sans: 'normal',
-    serif: 'serif',
-    rounded: 'normal',
-    mono: 'monospace',
-  },
-  web: {
-    sans: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
-    serif: "Georgia, 'Times New Roman', serif",
-    rounded: "'SF Pro Rounded', 'Hiragino Maru Gothic ProN', Meiryo, 'MS PGothic', sans-serif",
-    mono: "SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
-  },
-});
+} as const;
+
+export const Spacing = {
+  xs: 4,
+  sm: 8,
+  md: 16,
+  lg: 24,
+  xl: 32,
+} as const;
+
+export const BorderRadius = {
+  sm: 8,
+  md: 12,
+  lg: 16,
+} as const;

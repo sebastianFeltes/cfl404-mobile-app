@@ -1,86 +1,64 @@
-import React from 'react';
-import { Tabs } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
-import { CflColors } from '@/constants/theme';
+/**
+ * App Layout — Drawer de la aplicación post-login.
+ * Contiene el Tabs layout como pantalla principal, además de pantallas del menú hamburguesa.
+ */
 
-export default function AppTabsLayout() {
+import { Drawer } from 'expo-router/drawer';
+import { CustomDrawerContent } from '@/components/CustomDrawerContent';
+import { CustomAppHeader } from '@/components/CustomAppHeader';
+import { Colors } from '@/constants/theme';
+
+export default function AppLayout() {
   return (
-    <Tabs
+    <Drawer
+      drawerContent={(props) => <CustomDrawerContent {...props} />}
       screenOptions={{
-        tabBarActiveTintColor: CflColors.azul,
-        tabBarInactiveTintColor: CflColors.grisClaro,
-        tabBarStyle: {
-          backgroundColor: CflColors.blanco,
-          borderTopColor: CflColors.borde,
-          borderTopWidth: 1,
-          height: 62,
-          paddingBottom: 8,
-          paddingTop: 8,
-        },
-        tabBarLabelStyle: {
-          fontSize: 12,
-          fontWeight: '600',
-        },
-        headerStyle: {
-          backgroundColor: CflColors.azul,
-          elevation: 0,
-          shadowOpacity: 0,
-        },
-        headerTintColor: CflColors.blanco,
-        headerTitleStyle: {
-          fontWeight: '700',
-          fontSize: 18,
-        },
+        headerShown: false,
+        drawerActiveTintColor: Colors.azul,
+        drawerInactiveTintColor: Colors.grisOscuro,
+        drawerPosition: 'right', // Se abre desde la derecha donde está el icono hamburguesa
+        swipeEdgeWidth: 50,
       }}
     >
-      <Tabs.Screen
-        name="index"
+      <Drawer.Screen
+        name="(tabs)"
         options={{
-          title: 'Inicio',
-          headerTitle: 'CFL N° 404',
-          tabBarIcon: ({ color, size, focused }) => (
-            <Ionicons name={focused ? 'home' : 'home-outline'} size={size} color={color} />
-          ),
+          drawerItemStyle: { display: 'none' }, // No mostrar tabs como item en el drawer
         }}
       />
-      <Tabs.Screen
-        name="cursos/index"
-        options={{
-          title: 'Cursos',
-          headerTitle: 'Mis Cursos',
-          tabBarIcon: ({ color, size, focused }) => (
-            <Ionicons name={focused ? 'book' : 'book-outline'} size={size} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="beneficios"
-        options={{
-          title: 'Beneficios',
-          headerTitle: 'Comercios Adheridos',
-          tabBarIcon: ({ color, size, focused }) => (
-            <Ionicons name={focused ? 'pricetag' : 'pricetag-outline'} size={size} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
+      <Drawer.Screen
         name="perfil"
         options={{
-          title: 'Perfil',
-          headerTitle: 'Perfil del Alumno',
-          tabBarIcon: ({ color, size, focused }) => (
-            <Ionicons name={focused ? 'person' : 'person-outline'} size={size} color={color} />
-          ),
+          title: 'Mi Perfil',
+          headerShown: true,
+          header: () => <CustomAppHeader />,
+          drawerItemStyle: { display: 'none' },
         }}
       />
-      <Tabs.Screen
-        name="asistencia"
+      <Drawer.Screen
+        name="ayuda"
         options={{
-          href: null, // Oculto del tab bar principal para mantener 4 pestañas limpias, accesible por ruta
-          title: 'Credencial',
-          headerTitle: 'Credencial y Asistencia',
+          title: 'Ayuda',
+          headerShown: true,
+          header: () => <CustomAppHeader />,
+          drawerItemStyle: { display: 'none' },
         }}
       />
-    </Tabs>
+      <Drawer.Screen
+        name="contacto"
+        options={{
+          title: 'Contacto Institucional',
+          headerShown: true,
+          header: () => <CustomAppHeader />,
+          drawerItemStyle: { display: 'none' },
+        }}
+      />
+      <Drawer.Screen
+        name="cursos"
+        options={{
+          drawerItemStyle: { display: 'none' },
+        }}
+      />
+    </Drawer>
   );
 }

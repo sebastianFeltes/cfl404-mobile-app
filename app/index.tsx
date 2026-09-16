@@ -1,5 +1,17 @@
+/**
+ * Root Index — CFL 404 Mobile
+ * Redirige a login o al dashboard según el estado de autenticación.
+ */
+
 import { Redirect } from 'expo-router';
+import { useAuth } from '@/context/AuthContext';
 
 export default function Index() {
-  return <Redirect href="/(app)" />;
+  const { isAuthenticated } = useAuth();
+
+  if (!isAuthenticated) {
+    return <Redirect href="/(auth)/login" />;
+  }
+
+  return <Redirect href="/(app)/(tabs)" />;
 }
