@@ -17,17 +17,17 @@ export interface Curso {
 }
 
 export const MOCK_USER: Usuario = {
-  id: 'alumno-001',
-  nombre: 'Florencia García',
+  id: 'usr-404-001-cfl',
+  nombre: 'Juan Manuel Pérez',
   legajo: 'CFL-2026-0042',
-  email: 'florencia@example.com',
-  cursos: ['curso-1', 'curso-2', 'curso-3'],
+  email: 'juan.perez@alumnos.cfl404.edu.ar',
+  cursos: ['cfl-curso-01', 'cfl-curso-02', 'cfl-curso-03'],
 };
 
 export const MOCK_CURSOS: Curso[] = [
-  { id: 'curso-1', nombre: 'Desarrollo de Apps Móviles' },
-  { id: 'curso-2', nombre: 'Diseño UX/UI' },
-  { id: 'curso-3', nombre: 'Base de Datos' },
+  { id: 'cfl-curso-01', nombre: 'Programación de Apps Móviles' },
+  { id: 'cfl-curso-02', nombre: 'Diseño UX/UI para Aplicaciones' },
+  { id: 'cfl-curso-03', nombre: 'Electricidad Industrial y Automatización' },
 ];
 
 /**

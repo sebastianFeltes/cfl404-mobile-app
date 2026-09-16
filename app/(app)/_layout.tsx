@@ -5,6 +5,7 @@
 
 import { Drawer } from 'expo-router/drawer';
 import { CustomDrawerContent } from '@/components/CustomDrawerContent';
+import { CustomAppHeader } from '@/components/CustomAppHeader';
 import { Colors } from '@/constants/theme';
 
 export default function AppLayout() {
@@ -29,6 +30,8 @@ export default function AppLayout() {
         name="perfil"
         options={{
           title: 'Mi Perfil',
+          headerShown: true,
+          header: () => <CustomAppHeader />,
           drawerItemStyle: { display: 'none' },
         }}
       />
@@ -36,6 +39,8 @@ export default function AppLayout() {
         name="ayuda"
         options={{
           title: 'Ayuda',
+          headerShown: true,
+          header: () => <CustomAppHeader />,
           drawerItemStyle: { display: 'none' },
         }}
       />
@@ -43,6 +48,8 @@ export default function AppLayout() {
         name="contacto"
         options={{
           title: 'Contacto Institucional',
+          headerShown: true,
+          header: () => <CustomAppHeader />,
           drawerItemStyle: { display: 'none' },
         }}
       />
