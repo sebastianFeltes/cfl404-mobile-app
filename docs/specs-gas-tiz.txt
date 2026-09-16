@@ -7,6 +7,8 @@ CURSOS:
 Insertar imagenes, resaltar con verde la informacion importante, sombrear de color amarillo los recuadros de
  "avisos y novedades" en el modulo curso
 sombrear con amarillo degrade los cuadros "mis cursos, contacto y ayuda"
+en este modulo modificar las ventanas de alumno regular y cursos activos para que no esten encimadas
+modificar el detalle del alumno poniendo solo el nombre y apellido en mayusculas y negrita, numero de dni y ciclo lectivo con año respectivo y el circulo de la foto un poco mas grande
  
 CONTACTO:
 En el primer recuadro de "contacto institucional" colorear con un degrade azul
