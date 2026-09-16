@@ -16,11 +16,11 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         header: () => <CustomAppHeader />,
-        tabBarActiveTintColor: Colors.celeste,
-        tabBarInactiveTintColor: Colors.grisClaro,
+        tabBarActiveTintColor: Colors.blanco,
+        tabBarInactiveTintColor: "rgba(255, 255, 255, 0.6)",
         tabBarStyle: {
-          backgroundColor: Colors.blanco,
-          borderTopColor: "#E2E8F0",
+          backgroundColor: Colors.azul,
+          borderTopColor: "rgba(255, 255, 255, 0.15)",
           borderTopWidth: 1,
           height: 60,
           paddingBottom: 8,
@@ -67,7 +67,7 @@ export default function TabLayout() {
             <Ionicons
               name={focused ? "qr-code" : "qr-code-outline"}
               size={(size || 24) + 4}
-              color={focused ? Colors.azul : color}
+              color={color}
             />
           ),
         }}

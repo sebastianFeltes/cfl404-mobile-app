@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
   userLegajo: {
     fontFamily: Fonts.body,
     fontSize: 12,
-    color: Colors.amarillo,
+    color: Colors.blanco,
     marginTop: 4,
     fontWeight: '600',
   },
