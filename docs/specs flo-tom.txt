@@ -3,9 +3,9 @@ nosotros hacemos: rama flo-tom
 - asistencia (QR)
 
 - modificaciones:
-	- pintar el fondo de los tabs inferiores de azul
-	- pintar el legajo de menú hamburguesa de blanco
-	- en la parte CREDENCIAL, sacar lo referido al cfl, dejar la foto, el nombre y el apellido, el legajo o dni, y poner el logo del cfl en el medio del QR
+	- agregar un estilo de aura al QR (sacado de DaisyUI)
+	- sacar el scroll que hay en credencial
+	- agregar un snackbar al dashboard, que diga que hay avisos sin leer 
 
 
 credencial:
