@@ -8,11 +8,14 @@ nosotros hacemos: rama flo-tom
 	- en la parte CREDENCIAL, sacar lo referido al cfl, dejar la foto, el nombre y el apellido, el legajo o dni, y poner el logo del cfl en el medio del QR
 
 
-
-
-
-
-
-
 credencial:
-	- el qr se genera a partir del codigo de asistencia (attendance_token) que se carga al hacer login 
+	- el qr se genera a partir del codigo de asistencia (attendance_token) que 
+se carga al hacer login 
+
+
+
+
+generar flujo de avisos y definir implementacion (dashboard)
+categorias de avisos (operativos, informativos)
+
+cooperadora: datos para pagar, valores y estado de cuenta
