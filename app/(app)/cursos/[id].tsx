@@ -21,7 +21,7 @@ export default function CursoDetalleScreen() {
   const router = useRouter();
 
   // Buscar el curso correspondiente
-  const course: Course | undefined = mockCourses.find((c) => c.id === id);
+  const course: Course | undefined = mockCourses.find((c) => c.id === id) || mockCourses[0];
 
   // Estado para desplegar el historial de asistencia al tocar el botón tipo barra
   const [showAttendanceHistory, setShowAttendanceHistory] = useState(true);
