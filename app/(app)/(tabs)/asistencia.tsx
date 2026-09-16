@@ -1,16 +1,19 @@
 /**
  * Asistencia / Credencial — CFL 404 Mobile
  * Credencial digital del alumno.
- * - Pantalla completa azul institucional (#166193).
- * - Foto de perfil, nombre y apellido, credencial con legajo.
- * - Código QR grande con logo del CFL 404 en el centro.
+ * - Fondo con gradiente de azul a celeste.
+ * - Flecha de retorno al inicio arriba a la izquierda.
+ * - Foto de perfil, nombre y apellido, legajo del alumno.
+ * - Código QR con logo del CFL en el centro y padding adecuado.
  */
 
 import React, { useMemo } from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 import { StatusBar } from 'expo-status-bar';
+import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useAuth } from '@/context/AuthContext';
 import { generarJWT } from '@/data/mock';
 import { Colors, Fonts, Spacing, BorderRadius } from '@/constants/theme';
@@ -19,21 +22,40 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 export default function AsistenciaScreen() {
   const { user } = useAuth();
   const insets = useSafeAreaInsets();
+  const router = useRouter();
 
   const qrPayload = useMemo(() => {
     return generarJWT(user?.id || 'alumno-001');
   }, [user?.id]);
 
   return (
-    <View style={[styles.container, { paddingTop: Math.max(insets.top, 20) }]}>
+    <LinearGradient
+      colors={[Colors.azul, Colors.celeste]}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
+      style={styles.container}
+    >
       <StatusBar style="light" />
+
+      {/* Flecha arriba a la izquierda para volver al inicio */}
+      <View style={[styles.topBar, { paddingTop: Math.max(insets.top, 16) }]}>
+        <TouchableOpacity
+          onPress={() => router.replace('/(app)/(tabs)')}
+          style={styles.backButton}
+          activeOpacity={0.7}
+          accessibilityLabel="Volver a la pantalla principal"
+          accessibilityRole="button"
+        >
+          <Ionicons name="arrow-back" size={26} color={Colors.blanco} />
+        </TouchableOpacity>
+      </View>
 
       <ScrollView
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
         bounces={false}
       >
-        {/* Identificación del alumno: Foto, Nombre, Credencial y Legajo */}
+        {/* Identificación del alumno: Foto, Nombre y Apellido, Legajo */}
         <View style={styles.studentInfoContainer}>
           <View style={styles.avatarCircle}>
             <Ionicons name="person" size={54} color={Colors.azul} />
@@ -41,15 +63,12 @@ export default function AsistenciaScreen() {
           <Text style={styles.studentName}>
             {user?.nombre || 'Alumno'}
           </Text>
-          <View style={styles.credentialBadge}>
-            <Text style={styles.credentialTag}>CREDENCIAL DIGITAL</Text>
-          </View>
           {user?.legajo && (
             <Text style={styles.legajoText}>Legajo: {user.legajo}</Text>
           )}
         </View>
 
-        {/* QR con Logo del CFL en el medio */}
+        {/* QR con Logo del CFL en el centro con padding adecuado */}
         <View style={styles.qrSection}>
           <View style={styles.qrWrapper}>
             <QRCode
@@ -58,10 +77,11 @@ export default function AsistenciaScreen() {
               color={Colors.azul}
               backgroundColor={Colors.blanco}
               logo={require('@/assets/logo.png')}
-              logoSize={46}
+              logoSize={42}
               logoBackgroundColor={Colors.blanco}
               logoBorderRadius={8}
-              logoMargin={2}
+              logoMargin={7}
+              ecl="H"
             />
           </View>
           <Text style={styles.qrInstruction}>
@@ -69,19 +89,29 @@ export default function AsistenciaScreen() {
           </Text>
         </View>
       </ScrollView>
-    </View>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.azul,
+  },
+  topBar: {
+    paddingHorizontal: Spacing.md,
+    paddingBottom: Spacing.xs,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  backButton: {
+    padding: 8,
+    borderRadius: 20,
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
   },
   scrollContent: {
     alignItems: 'center',
     paddingHorizontal: Spacing.lg,
-    paddingTop: Spacing.sm,
+    paddingTop: Spacing.xs,
     paddingBottom: Spacing.xl,
   },
   studentInfoContainer: {
@@ -109,25 +139,10 @@ const styles = StyleSheet.create({
     color: Colors.blanco,
     textAlign: 'center',
   },
-  credentialBadge: {
-    marginTop: 6,
-    backgroundColor: 'rgba(255, 255, 255, 0.15)',
-    paddingHorizontal: 12,
-    paddingVertical: 4,
-    borderRadius: 12,
-  },
-  credentialTag: {
-    fontFamily: Fonts.body,
-    fontSize: 12,
-    letterSpacing: 1.5,
-    color: Colors.amarillo,
-    fontWeight: '700',
-  },
   legajoText: {
     fontFamily: Fonts.body,
     fontSize: 15,
     color: Colors.blanco,
-    fontWeight: '600',
     marginTop: 6,
   },
   qrSection: {
@@ -149,7 +164,7 @@ const styles = StyleSheet.create({
   qrInstruction: {
     fontFamily: Fonts.body,
     fontSize: 13,
-    color: 'rgba(255, 255, 255, 0.9)',
+    color: 'rgba(255, 255, 255, 0.95)',
     textAlign: 'center',
     marginTop: Spacing.md,
     maxWidth: 260,
