@@ -1,0 +1,8 @@
+Modulos:Perfil,Mis Cursos y Beneficios
+Beneficios:
+	Color de Texto de los horarios:verde
+Mi Perfil:
+ 	Card Principal de los Datos sea gradiente de azul a celeste
+	Cambio de Titulo y Escolaridad en Informacion Personal,Contactos,Restringir los datos para no editarlos
+	agregar iconos a los campos del perfi
+        quitar boton de edicion de datos(no podes cambiar los datos una vez que el alumno es dado de alta)
