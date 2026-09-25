@@ -13,6 +13,7 @@ export const Colors = {
   fondo: '#F8FAFC',      // Fondo de pantallas
   superficie: '#FFFFFF', // Superficie de tarjetas
   borde: '#E2E8F0',      // Bordes y separadores
+  bordeActivo: '#37A6DE',// Borde activo / foco
   exito: '#16A34A',      // Estados positivos / presente
   peligro: '#DC2626',    // Inasistencias críticas / errores
   alerta: '#D97706',     // Advertencias

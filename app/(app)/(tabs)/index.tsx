@@ -104,13 +104,6 @@ export default function DashboardScreen() {
             </View>
 
             {MOCK_CURSOS.map((item: CourseItem) => {
-              const remainingAbsences = item.absenceLimit - item.absenceCount;
-              const attendancePercent = Math.round(
-                (item.attendanceSummary.present /
-                  (item.attendanceSummary.present + item.attendanceSummary.absent)) *
-                  100
-              );
-
               return (
                 <TouchableOpacity
                   key={item.userCourseId}
@@ -162,45 +155,6 @@ export default function DashboardScreen() {
                       <Ionicons name="ribbon-outline" size={16} color={CflColors.azul} />
                       <Text style={styles.detailText}>
                         {item.course.courseDetail.hourQuantity} hs cátedra
-                      </Text>
-                    </View>
-                  </View>
-
-                  {/* Resumen de Asistencia */}
-                  <View style={styles.attendanceBox}>
-                    <View style={styles.attendanceHeader}>
-                      <Text style={styles.attendanceLabel}>Presentismo registrado</Text>
-                      <Text style={styles.attendancePercentage}>{attendancePercent}%</Text>
-                    </View>
-
-                    {/* Barra de progreso de asistencia */}
-                    <View style={styles.progressBarBackground}>
-                      <View
-                        style={[
-                          styles.progressBarFill,
-                          {
-                            width: `${Math.min(attendancePercent, 100)}%`,
-                            backgroundColor:
-                              remainingAbsences <= 2 ? CflColors.peligro : CflColors.azul,
-                          },
-                        ]}
-                      />
-                    </View>
-
-                    <View style={styles.attendanceFooter}>
-                      <Text style={styles.absenceText}>
-                        Faltas: <Text style={styles.boldText}>{item.absenceCount}</Text> de{' '}
-                        {item.absenceLimit} máx.
-                      </Text>
-                      <Text
-                        style={[
-                          styles.remainingAbsenceText,
-                          remainingAbsences <= 2 && styles.urgentAbsenceText,
-                        ]}
-                      >
-                        {remainingAbsences > 0
-                          ? `Te restan ${remainingAbsences} falta${remainingAbsences > 1 ? 's' : ''}`
-                          : 'Límite alcanzado'}
                       </Text>
                     </View>
                   </View>
@@ -374,61 +328,6 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: CflColors.grisOscuro,
     fontWeight: '500',
-  },
-  attendanceBox: {
-    backgroundColor: '#F8FAFC',
-    borderRadius: 10,
-    padding: 12,
-    borderWidth: 1,
-    borderColor: CflColors.borde,
-  },
-  attendanceHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 6,
-  },
-  attendanceLabel: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: CflColors.grisClaro,
-  },
-  attendancePercentage: {
-    fontSize: 14,
-    fontWeight: '700',
-    color: CflColors.azul,
-  },
-  progressBarBackground: {
-    height: 6,
-    backgroundColor: '#E2E8F0',
-    borderRadius: 3,
-    overflow: 'hidden',
-    marginBottom: 8,
-  },
-  progressBarFill: {
-    height: '100%',
-    borderRadius: 3,
-  },
-  attendanceFooter: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  absenceText: {
-    fontSize: 12,
-    color: CflColors.grisClaro,
-  },
-  boldText: {
-    fontWeight: '700',
-    color: CflColors.grisOscuro,
-  },
-  remainingAbsenceText: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: CflColors.exito,
-  },
-  urgentAbsenceText: {
-    color: CflColors.peligro,
   },
   courseAlertBanner: {
     flexDirection: 'row',
