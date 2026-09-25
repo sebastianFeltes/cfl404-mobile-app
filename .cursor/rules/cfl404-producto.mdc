@@ -7,7 +7,7 @@ alwaysApply: true
 
 Fuente de verdad: `docs/producto.md`. Si el SVG o `docs/specs-iniciales.txt` contradicen, gana producto.
 
-App de **alumnos** (Expo SDK 54): login Google, cursada, credencial QR, beneficios, contacto y cooperadora.
+App de **alumnos** (Expo SDK 57): login Google, cursada, credencial QR, beneficios, contacto y cooperadora.
 
 ## Asistencia
 

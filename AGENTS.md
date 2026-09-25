@@ -1,6 +1,6 @@
 # Agentes — CFL 404 mobile
 
-App Expo **SDK 54** para alumnos del CFL 404 (ciclo 2026).
+App Expo **SDK 57** para alumnos del CFL 404 (ciclo 2026).
 
 Antes de implementar, leer en este orden:
 
@@ -11,11 +11,11 @@ Antes de implementar, leer en este orden:
 
 Si hay contradicción, **gana `docs/producto.md`**. El SVG y las specs no pisan la salvedad de Asistencia.
 
-APIs de Expo: [docs versionadas SDK 54](https://docs.expo.dev/versions/v54.0.0/).
+APIs de Expo: [docs versionadas SDK 57](https://docs.expo.dev/versions/v57.0.0/).
 
 ## Stack
 
-- Expo SDK 54 + Expo Router (rutas en `app/`, no `src/app/`)
+- Expo SDK 57 + Expo Router (rutas en `app/`, no `src/app/`)
 - TypeScript; textos de UI en **español**
 - Tokens de color y fuente en `constants/theme.ts`
 - Deep link scheme: `cfl404mobile`

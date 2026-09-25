@@ -4,9 +4,11 @@
  */
 
 import { useEffect } from 'react';
+import { Platform } from 'react-native';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import * as SplashScreen from 'expo-splash-screen';
+import { NavigationBar } from 'expo-navigation-bar';
 import { useFonts } from 'expo-font';
 import { RobotoFlex_400Regular } from '@expo-google-fonts/roboto-flex';
 import { Nunito_700Bold } from '@expo-google-fonts/nunito';
@@ -34,12 +36,19 @@ export default function RootLayout() {
 
   return (
     <AuthProvider>
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="index" />
+      <Stack
+        screenOptions={{
+          headerShown: false,
+          animation: 'fade',
+          animationDuration: 280,
+        }}
+      >
+        <Stack.Screen name="index" options={{ animation: 'none' }} />
         <Stack.Screen name="(auth)" />
         <Stack.Screen name="(app)" />
       </Stack>
       <StatusBar style="dark" />
+      {Platform.OS === 'android' ? <NavigationBar hidden /> : null}
     </AuthProvider>
   );
 }

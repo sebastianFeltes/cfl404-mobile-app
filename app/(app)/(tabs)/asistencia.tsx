@@ -14,10 +14,12 @@ import { StatusBar } from 'expo-status-bar';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
+import { SvgXml } from 'react-native-svg';
 import { useAuth } from '@/context/AuthContext';
 import { generarJWT } from '@/data/mock';
 import { Colors, Fonts, Spacing, BorderRadius } from '@/constants/theme';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { CFL_LOGO_HERO_SVG } from '@/components/CflLogoHeroSvg';
 
 export default function AsistenciaScreen() {
   const { user } = useAuth();
@@ -29,7 +31,7 @@ export default function AsistenciaScreen() {
   const qrCardPadding = 14;
   const horizontalPadding = 16;
   const qrSize = Math.min(width - (horizontalPadding * 2 + qrCardPadding * 2), 360);
-  const qrLogoSize = Math.round(qrSize * 0.2);
+  const qrLogoSize = Math.round(qrSize * 0.46);
 
   const qrPayload = useMemo(() => {
     return generarJWT(user?.id || 'alumno-001');
@@ -78,18 +80,30 @@ export default function AsistenciaScreen() {
         {/* QR con Logo del CFL en el centro con padding adecuado */}
         <View style={styles.qrSection}>
           <View style={[styles.qrWrapper, { padding: qrCardPadding }]}>
-            <QRCode
-              value={qrPayload}
-              size={qrSize}
-              color={Colors.azul}
-              backgroundColor={Colors.blanco}
-              logo={require('@/assets/logo.png')}
-              logoSize={qrLogoSize}
-              logoBackgroundColor={Colors.blanco}
-              logoBorderRadius={8}
-              logoMargin={6}
-              ecl="H"
-            />
+            <View style={{ width: qrSize, height: qrSize }}>
+              <QRCode
+                value={qrPayload}
+                size={qrSize}
+                color={Colors.azul}
+                backgroundColor={Colors.blanco}
+                ecl="H"
+              />
+              <View
+                pointerEvents="none"
+                style={[
+                  styles.qrLogo,
+                  {
+                    width: qrLogoSize,
+                    height: qrLogoSize,
+                    borderRadius: qrLogoSize / 2,
+                    left: (qrSize - qrLogoSize) / 2,
+                    top: (qrSize - qrLogoSize) / 2,
+                  },
+                ]}
+              >
+                <SvgXml xml={CFL_LOGO_HERO_SVG} width={qrLogoSize} height={qrLogoSize} />
+              </View>
+            </View>
           </View>
           <Text style={styles.qrInstruction}>
             Presentá este código QR para registrar tu asistencia
@@ -155,6 +169,13 @@ const styles = StyleSheet.create({
   qrSection: {
     alignItems: 'center',
     width: '100%',
+  },
+  qrLogo: {
+    position: 'absolute',
+    backgroundColor: Colors.blanco,
+    overflow: 'hidden',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   qrWrapper: {
     backgroundColor: Colors.blanco,

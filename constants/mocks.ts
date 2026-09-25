@@ -85,7 +85,7 @@ export interface CourseNotification {
   title: string;
   message: string;
   date: string;
-  type: 'aviso' | 'examen' | 'clase' | 'urgente';
+  type: 'operativo' | 'academico' | 'informativo';
 }
 
 export interface BenefitItem {
@@ -261,7 +261,7 @@ export const MOCK_NOTIFICACIONES: CourseNotification[] = [
     title: 'Entrega de avance — Proyecto Final',
     message: 'Recuerden subir el repositorio con el flujo de navegación completo antes del viernes 23:59hs.',
     date: '2026-09-03T14:30:00.000Z',
-    type: 'examen',
+    type: 'academico',
   },
   {
     id: 'notif-002',
@@ -270,7 +270,7 @@ export const MOCK_NOTIFICACIONES: CourseNotification[] = [
     title: 'Jornada Institucional Docente',
     message: 'El próximo viernes 11/09 no habrá actividades académicas presenciales por jornada pedagógica.',
     date: '2026-09-01T10:00:00.000Z',
-    type: 'aviso',
+    type: 'operativo',
   },
   {
     id: 'notif-003',
@@ -279,7 +279,7 @@ export const MOCK_NOTIFICACIONES: CourseNotification[] = [
     title: 'Material de lectura disponible',
     message: 'Se cargaron los lineamientos de accesibilidad móvil y heurísticas de Nielsen en la carpeta compartida.',
     date: '2026-08-28T16:15:00.000Z',
-    type: 'clase',
+    type: 'academico',
   },
   {
     id: 'notif-004',
@@ -288,7 +288,7 @@ export const MOCK_NOTIFICACIONES: CourseNotification[] = [
     title: 'Uso obligatorio de EPP',
     message: 'Para la práctica de cableado en tableros es indispensable ingresar con calzado dieléctrico y guantes.',
     date: '2026-08-25T09:20:00.000Z',
-    type: 'urgente',
+    type: 'operativo',
   },
 ];
 

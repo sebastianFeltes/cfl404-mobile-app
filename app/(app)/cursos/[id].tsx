@@ -14,14 +14,19 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 
 import { Palette, Typography } from '@/constants/theme';
+import { MOCK_USER } from '@/constants/mocks';
+import { useAuth } from '@/context/AuthContext';
 import { mockCourses, Course } from '@/data/coursesData';
+import SolicitudReincorporacionModal from '@/components/SolicitudReincorporacionModal';
 
 export default function CursoDetalleScreen() {
-  const { id } = useLocalSearchParams<{ id: string }>();
+  const params = useLocalSearchParams<{ id: string | string[] }>();
+  const courseId = Array.isArray(params.id) ? params.id[0] : params.id;
   const router = useRouter();
+  const { user } = useAuth();
+  const [reincorporacionVisible, setReincorporacionVisible] = useState(false);
 
-  // Buscar el curso correspondiente
-  const course: Course | undefined = mockCourses.find((c) => c.id === id) || mockCourses[0];
+  const course: Course | undefined = mockCourses.find((c) => c.id === courseId);
 
   // Estado para desplegar el historial de asistencia al tocar el botón tipo barra
   const [showAttendanceHistory, setShowAttendanceHistory] = useState(true);
@@ -32,7 +37,7 @@ export default function CursoDetalleScreen() {
         <View style={styles.notFoundContainer}>
           <Ionicons name="alert-circle-outline" size={48} color={Palette.grisClaro} />
           <Text style={styles.notFoundText}>No se encontró el curso solicitado.</Text>
-          <Pressable style={styles.backButton} onPress={() => router.back()}>
+          <Pressable style={styles.backButton} onPress={() => router.replace('/(app)/(tabs)')}>
             <Text style={styles.backButtonText}>Volver al listado</Text>
           </Pressable>
         </View>
@@ -55,7 +60,12 @@ export default function CursoDetalleScreen() {
   ).length;
 
   const remainingAbsences = Math.max(0, course.maxAbsences - course.absenceCount);
+  const noAbsencesLeft = remainingAbsences === 0;
   const isNearLimit = course.absenceCount >= course.maxAbsences - 2;
+  const classesDone = course.attendanceHistory.length;
+  const classesTotal = course.classesQuantity;
+  const coursePercent =
+    classesTotal > 0 ? Math.min(100, Math.round((classesDone / classesTotal) * 100)) : 0;
 
   const handleOpenLink = async (url: string, label: string) => {
     try {
@@ -132,7 +142,6 @@ export default function CursoDetalleScreen() {
                 <Text style={styles.instructorName}>
                   {course.instructor.firstName} {course.instructor.lastName}
                 </Text>
-                <Text style={styles.instructorEmail}>{course.instructor.email}</Text>
               </View>
             </View>
           </View>
@@ -260,85 +269,50 @@ export default function CursoDetalleScreen() {
                   <Text style={styles.metricTitle}>Estado de Presentismo</Text>
                   <Text style={styles.metricSubtitle}>Seguimiento de regularidad</Text>
                 </View>
-                <View
-                  style={[
-                    styles.metricBadge,
-                    isNearLimit ? styles.metricBadgeDanger : styles.metricBadgeSuccess,
-                  ]}>
-                  <Ionicons
-                    name={isNearLimit ? 'alert-circle' : 'shield-checkmark'}
-                    size={13}
-                    color={isNearLimit ? Palette.danger : Palette.success}
-                    style={{ marginRight: 4 }}
-                  />
-                  <Text
-                    style={[
-                      styles.metricBadgeText,
-                      isNearLimit && { color: Palette.danger },
-                    ]}>
-                    {remainingAbsences > 0 ? `${remainingAbsences} disponibles` : 'Sin cupo'}
+              </View>
+
+              <View style={styles.courseProgressCard}>
+                <View style={styles.metricHeader}>
+                  <Text style={styles.metricTitle}>Avance del curso</Text>
+                  <Text style={styles.metricSubtitle}>
+                    {classesDone} de {classesTotal} clases
                   </Text>
+                </View>
+                <View style={styles.progressTrack}>
+                  <View style={[styles.progressBarFill, { width: `${coursePercent}%` }]} />
                 </View>
               </View>
 
-              {/* RECUADRO NOTABLE DE FALTAS QUE QUEDAN */}
               <View
                 style={[
                   styles.remainingHighlightCard,
-                  isNearLimit ? styles.remainingCardAlert : styles.remainingCardSuccess,
+                  noAbsencesLeft || isNearLimit ? styles.remainingCardAlert : styles.remainingCardSuccess,
                 ]}>
-                <View style={styles.remainingCardTop}>
-                  <View
-                    style={[
-                      styles.remainingIconBox,
-                      isNearLimit ? styles.remainingIconBoxAlert : styles.remainingIconBoxSuccess,
-                    ]}>
-                    <Ionicons
-                      name={isNearLimit ? 'alert-circle' : 'calendar-outline'}
-                      size={24}
-                      color={isNearLimit ? Palette.danger : Palette.success}
-                    />
-                  </View>
-                  <View style={styles.remainingContentCol}>
-                    <Text style={styles.remainingCardTag}>FALTAS RESTANTES DISPONIBLES</Text>
-                    <Text
-                      style={[
-                        styles.remainingBigNumber,
-                        { color: isNearLimit ? Palette.danger : Palette.success },
-                      ]}>
-                      {remainingAbsences} {remainingAbsences === 1 ? 'FALTA' : 'FALTAS'}
-                    </Text>
-                  </View>
-                </View>
-
-                {/* Barra de progreso visual de faltas consumidas */}
-                <View style={styles.progressTrack}>
-                  <View
-                    style={[
-                      styles.progressBarFill,
-                      {
-                        width: `${Math.min(100, Math.max(6, (course.absenceCount / course.maxAbsences) * 100))}%`,
-                        backgroundColor: isNearLimit ? Palette.danger : Palette.success,
-                      },
-                    ]}
-                  />
-                </View>
-
-                <View style={styles.progressTextRow}>
-                  <Text style={styles.progressLabel}>
-                    Consumidas: <Text style={styles.progressLabelBold}>{course.absenceCount}</Text> de {course.maxAbsences} permitidas
-                  </Text>
+                <View style={[styles.availableBadge, noAbsencesLeft && styles.availableBadgeDanger]}>
                   <Text
                     style={[
-                      styles.progressRemainingLabel,
-                      { color: isNearLimit ? Palette.danger : Palette.success },
+                      styles.availableBadgeText,
+                      noAbsencesLeft && styles.availableBadgeTextDanger,
                     ]}>
-                    {remainingAbsences > 0
-                      ? `Te quedan ${remainingAbsences} faltas`
-                      : 'Límite alcanzado'}
+                    {remainingAbsences} faltas disponibles
                   </Text>
                 </View>
+                <Text style={[styles.progressLabel, noAbsencesLeft && styles.progressLabelDanger]}>
+                  {course.absenceCount} de {course.maxAbsences} faltas utilizadas
+                </Text>
               </View>
+
+              {noAbsencesLeft ? (
+                <Pressable
+                  style={({ pressed }) => [
+                    styles.reincorporationButton,
+                    pressed && styles.reincorporationButtonPressed,
+                  ]}
+                  onPress={() => setReincorporacionVisible(true)}>
+                  <Ionicons name="paper-plane" size={18} color={Palette.blanco} />
+                  <Text style={styles.reincorporationButtonText}>Solicitar Reincorporación</Text>
+                </Pressable>
+              ) : null}
 
               {/* Desglose de Clases con Presentes en Verde */}
               <View style={styles.breakdownRow}>
@@ -388,21 +362,11 @@ export default function CursoDetalleScreen() {
                     </View>
 
                     <View style={styles.historyDetailsCol}>
-                      <View style={styles.historyStatusWrapper}>
-                        <View style={[styles.badgePill, { backgroundColor: badge.bg }]}>
-                          <Text style={[styles.badgePillText, { color: badge.text }]}>
-                            {badge.label}
-                          </Text>
-                        </View>
-                        {item.countsAsAbsence && (
-                          <Text style={styles.countsAsAbsenceHint}>
-                            (computa falta)
-                          </Text>
-                        )}
+                      <View style={[styles.badgePill, { backgroundColor: badge.bg }]}>
+                        <Text style={[styles.badgePillText, { color: badge.text }]}>
+                          {badge.label}
+                        </Text>
                       </View>
-                      {item.note && (
-                        <Text style={styles.historyNote}>{item.note}</Text>
-                      )}
                     </View>
                   </View>
                 );
@@ -430,6 +394,18 @@ export default function CursoDetalleScreen() {
         {/* Espaciador inferior */}
         <View style={{ height: 32 }} />
       </ScrollView>
+
+      <SolicitudReincorporacionModal
+        visible={reincorporacionVisible}
+        alumno={{
+          firstName: MOCK_USER.firstName,
+          lastName: MOCK_USER.lastName,
+          dni: MOCK_USER.dni || 'Sin registrar',
+          legajo: user?.legajo || 'Sin registrar',
+          courseName: course.name,
+        }}
+        onClose={() => setReincorporacionVisible(false)}
+      />
     </SafeAreaView>
   );
 }
@@ -751,29 +727,6 @@ const styles = StyleSheet.create({
     color: Palette.grisClaro,
     marginTop: 1,
   },
-  metricBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 8,
-  },
-  metricBadgeSuccess: {
-    backgroundColor: '#DCFCE7',
-    borderWidth: 1,
-    borderColor: '#86EFAC',
-  },
-  metricBadgeDanger: {
-    backgroundColor: '#FEE2E2',
-    borderWidth: 1,
-    borderColor: '#FCA5A5',
-  },
-  metricBadgeText: {
-    fontFamily: Typography.fontFamily.bold,
-    fontWeight: 'bold',
-    fontSize: 12,
-    color: Palette.success,
-  },
 
   /* Recuadro notable de faltas restantes */
   remainingHighlightCard: {
@@ -781,6 +734,7 @@ const styles = StyleSheet.create({
     padding: 16,
     marginBottom: 16,
     borderWidth: 1.5,
+    alignItems: 'center',
   },
   remainingCardSuccess: {
     backgroundColor: '#F0FDF4',
@@ -789,6 +743,60 @@ const styles = StyleSheet.create({
   remainingCardAlert: {
     backgroundColor: '#FEF2F2',
     borderColor: '#FCA5A5',
+  },
+  availableBadge: {
+    alignSelf: 'center',
+    backgroundColor: '#DCFCE7',
+    borderWidth: 1,
+    borderColor: '#166534',
+    borderRadius: 8,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    marginBottom: 8,
+  },
+  availableBadgeText: {
+    fontFamily: Typography.fontFamily.bold,
+    fontWeight: '700',
+    fontSize: 12,
+    color: '#15803D',
+  },
+  availableBadgeDanger: {
+    backgroundColor: '#FEE2E2',
+    borderColor: Palette.danger,
+  },
+  availableBadgeTextDanger: {
+    color: Palette.danger,
+  },
+  progressLabelDanger: {
+    color: Palette.danger,
+    fontFamily: Typography.fontFamily.bold,
+    fontWeight: '700',
+  },
+  reincorporationButton: {
+    width: '100%',
+    backgroundColor: Palette.azul,
+    borderRadius: 14,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    marginBottom: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    elevation: 3,
+    shadowColor: Palette.azul,
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.25,
+    shadowRadius: 6,
+  },
+  reincorporationButtonPressed: {
+    opacity: 0.9,
+  },
+  reincorporationButtonText: {
+    fontFamily: Typography.fontFamily.bold,
+    fontWeight: 'bold',
+    fontSize: 16,
+    color: Palette.blanco,
   },
   remainingCardTop: {
     flexDirection: 'row',
@@ -836,6 +844,7 @@ const styles = StyleSheet.create({
   progressBarFill: {
     height: '100%',
     borderRadius: 4,
+    backgroundColor: Palette.azul,
   },
   progressTextRow: {
     flexDirection: 'row',
@@ -846,6 +855,7 @@ const styles = StyleSheet.create({
     fontFamily: Typography.fontFamily.regular,
     fontSize: 12,
     color: Palette.grisOscuro,
+    textAlign: 'center',
   },
   progressLabelBold: {
     fontFamily: Typography.fontFamily.bold,
@@ -928,20 +938,18 @@ const styles = StyleSheet.create({
   historyDetailsCol: {
     flex: 1,
     marginLeft: 8,
-  },
-  historyStatusWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-end',
   },
   badgePill: {
-    paddingHorizontal: 8,
-    paddingVertical: 3,
-    borderRadius: 6,
+    alignSelf: 'flex-end',
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 4,
   },
   badgePillText: {
     fontFamily: Typography.fontFamily.bold,
     fontWeight: 'bold',
-    fontSize: 11,
+    fontSize: 10,
   },
   countsAsAbsenceHint: {
     fontFamily: Typography.fontFamily.regular,

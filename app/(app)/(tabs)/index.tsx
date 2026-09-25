@@ -35,17 +35,48 @@ export default function DashboardScreen() {
 
   const getNotificationBadge = (type: CourseNotification['type']) => {
     switch (type) {
-      case 'examen':
-        return { bg: '#FEF3C7', color: '#B45309', label: 'Evaluación' };
-      case 'urgente':
-        return { bg: '#FEE2E2', color: '#B91C1C', label: 'Urgente' };
-      case 'clase':
-        return { bg: '#E0F2FE', color: '#0369A1', label: 'Material' };
-      case 'aviso':
+      case 'operativo':
+        return {
+          bg: '#FEE2E2',
+          color: '#B91C1C',
+          label: 'Urgente',
+          icon: 'alert-circle' as const,
+        };
+      case 'academico':
+        return {
+          bg: '#FEF3C7',
+          color: '#B45309',
+          label: 'Académico',
+          icon: 'school' as const,
+        };
+      case 'informativo':
       default:
-        return { bg: '#EBF4FA', color: CflColors.azul, label: 'Aviso general' };
+        return {
+          bg: '#EBF4FA',
+          color: CflColors.azul,
+          label: 'Informativo',
+          icon: 'information-circle' as const,
+        };
     }
   };
+
+  const avisoGroups: { type: CourseNotification['type']; title: string; subtitle: string }[] = [
+    {
+      type: 'operativo',
+      title: 'Urgentes',
+      subtitle: 'Dictado de clases: faltas, feriados, suspensiones',
+    },
+    {
+      type: 'academico',
+      title: 'Académicos',
+      subtitle: 'Evaluaciones, entregas y materiales de la cursada',
+    },
+    {
+      type: 'informativo',
+      title: 'Informativos',
+      subtitle: 'Novedades del CFL',
+    },
+  ];
 
   return (
     <View style={styles.container}>
@@ -105,11 +136,15 @@ export default function DashboardScreen() {
 
             {MOCK_CURSOS.map((item: CourseItem) => {
               const remainingAbsences = item.absenceLimit - item.absenceCount;
-              const isNearLimit = remainingAbsences <= 2;
-              const usedPercent = Math.min(
-                Math.round((item.absenceCount / item.absenceLimit) * 100),
-                100
-              );
+              const classesTotal = item.course.courseDetail.classesQuantity;
+              const classesDone =
+                item.attendanceSummary.present +
+                item.attendanceSummary.absent +
+                item.attendanceSummary.late;
+              const coursePercent =
+                classesTotal > 0
+                  ? Math.min(100, Math.round((classesDone / classesTotal) * 100))
+                  : 0;
 
               return (
                 <TouchableOpacity
@@ -166,67 +201,27 @@ export default function DashboardScreen() {
                     </View>
                   </View>
 
-                  <View
-                    style={[
-                      styles.attendanceBox,
-                      isNearLimit ? styles.attendanceBoxAlert : styles.attendanceBoxOk,
-                    ]}
-                  >
+                  <View style={styles.progressBox}>
                     <View style={styles.attendanceHeader}>
-                      <View style={styles.attendanceHeaderLeft}>
-                        <Ionicons
-                          name={isNearLimit ? 'alert-circle' : 'shield-checkmark'}
-                          size={16}
-                          color={isNearLimit ? CflColors.peligro : CflColors.exito}
-                        />
-                        <Text style={styles.attendanceLabel}>FALTAS RESTANTES</Text>
-                      </View>
-                      <View
-                        style={[
-                          styles.remainingBadge,
-                          isNearLimit ? styles.remainingBadgeAlert : styles.remainingBadgeOk,
-                        ]}
-                      >
-                        <Text
-                          style={[
-                            styles.remainingBadgeText,
-                            isNearLimit ? styles.remainingTextAlert : styles.remainingTextOk,
-                          ]}
-                        >
-                          {remainingAbsences > 0
-                            ? `${remainingAbsences} ${remainingAbsences === 1 ? 'disponible' : 'disponibles'}`
-                            : 'Sin cupo'}
-                        </Text>
-                      </View>
+                      <Text style={styles.attendanceLabel}>AVANCE DEL CURSO</Text>
+                      <Text style={styles.progressCount}>
+                        {classesDone} de {classesTotal} clases
+                      </Text>
                     </View>
-
                     <View style={styles.progressBarBackground}>
-                      <View
-                        style={[
-                          styles.progressBarFill,
-                          {
-                            width: `${usedPercent}%`,
-                            backgroundColor: isNearLimit ? CflColors.peligro : CflColors.exito,
-                          },
-                        ]}
-                      />
+                      <View style={[styles.progressBarFill, { width: `${coursePercent}%` }]} />
                     </View>
+                  </View>
 
-                    <View style={styles.attendanceFooterRow}>
-                      <Text style={styles.absenceCountText}>
-                        {item.absenceCount} de {item.absenceLimit} faltas utilizadas
-                      </Text>
-                      <Text
-                        style={[
-                          styles.remainingAbsenceText,
-                          isNearLimit && styles.urgentAbsenceText,
-                        ]}
-                      >
-                        {remainingAbsences > 0
-                          ? `Te quedan ${remainingAbsences} falta${remainingAbsences > 1 ? 's' : ''}`
-                          : 'Límite alcanzado'}
+                  <View style={styles.absenceSummary}>
+                    <View style={styles.availableBadge}>
+                      <Text style={styles.availableBadgeText}>
+                        {remainingAbsences} faltas disponibles
                       </Text>
                     </View>
+                    <Text style={styles.absenceCountText}>
+                      {item.absenceCount} de {item.absenceLimit} faltas utilizadas
+                    </Text>
                   </View>
 
                   {/* Aviso particular si existe */}
@@ -252,23 +247,40 @@ export default function DashboardScreen() {
               </Text>
             </View>
 
-            {MOCK_NOTIFICACIONES.map((notif: CourseNotification) => {
-              const badge = getNotificationBadge(notif.type);
+            {avisoGroups.map((group) => {
+              const items = MOCK_NOTIFICACIONES.filter((notif) => notif.type === group.type);
+              if (items.length === 0) return null;
+              const badge = getNotificationBadge(group.type);
 
               return (
-                <View key={notif.id} style={styles.notifCard}>
-                  <View style={styles.notifHeader}>
-                    <View style={[styles.typeBadge, { backgroundColor: badge.bg }]}>
-                      <Text style={[styles.typeBadgeText, { color: badge.color }]}>
-                        {badge.label}
-                      </Text>
+                <View key={group.type} style={styles.avisoGroup}>
+                  <View style={styles.avisoGroupHeader}>
+                    <View style={[styles.avisoGroupIcon, { backgroundColor: badge.bg }]}>
+                      <Ionicons name={badge.icon} size={18} color={badge.color} />
                     </View>
-                    <Text style={styles.notifDate}>{formatNotificationDate(notif.date)}</Text>
+                    <View style={styles.avisoGroupTitles}>
+                      <Text style={styles.avisoGroupTitle}>{group.title}</Text>
+                      <Text style={styles.avisoGroupSubtitle}>{group.subtitle}</Text>
+                    </View>
                   </View>
 
-                  <Text style={styles.notifCourse}>{notif.courseName}</Text>
-                  <Text style={styles.notifTitle}>{notif.title}</Text>
-                  <Text style={styles.notifMessage}>{notif.message}</Text>
+                  {items.map((notif: CourseNotification) => (
+                    <View key={notif.id} style={styles.notifCard}>
+                      <View style={styles.notifHeader}>
+                        <View style={[styles.typeBadge, { backgroundColor: badge.bg }]}>
+                          <Ionicons name={badge.icon} size={13} color={badge.color} />
+                          <Text style={[styles.typeBadgeText, { color: badge.color }]}>
+                            {badge.label}
+                          </Text>
+                        </View>
+                        <Text style={styles.notifDate}>{formatNotificationDate(notif.date)}</Text>
+                      </View>
+
+                      <Text style={styles.notifCourse}>{notif.courseName}</Text>
+                      <Text style={styles.notifTitle}>{notif.title}</Text>
+                      <Text style={styles.notifMessage}>{notif.message}</Text>
+                    </View>
+                  ))}
                 </View>
               );
             })}
@@ -399,6 +411,41 @@ const styles = StyleSheet.create({
     color: CflColors.grisOscuro,
     fontWeight: '500',
   },
+  progressBox: {
+    borderRadius: 12,
+    padding: 12,
+    borderWidth: 1,
+    borderColor: CflColors.borde,
+    backgroundColor: '#F8FAFC',
+    marginBottom: 10,
+  },
+  progressCount: {
+    fontFamily: Fonts.body,
+    fontSize: 12,
+    fontWeight: '600',
+    color: CflColors.azul,
+  },
+  absenceSummary: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    gap: 8,
+  },
+  availableBadge: {
+    alignSelf: 'flex-start',
+    backgroundColor: '#DCFCE7',
+    borderWidth: 1,
+    borderColor: '#86EFAC',
+    borderRadius: 8,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+  },
+  availableBadgeText: {
+    fontFamily: Fonts.title,
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#15803D',
+  },
   attendanceBox: {
     borderRadius: 12,
     padding: 12,
@@ -462,6 +509,7 @@ const styles = StyleSheet.create({
   progressBarFill: {
     height: '100%',
     borderRadius: 3,
+    backgroundColor: CflColors.azul,
   },
   attendanceFooterRow: {
     flexDirection: 'row',
@@ -498,6 +546,36 @@ const styles = StyleSheet.create({
     color: CflColors.azul,
     fontWeight: '500',
   },
+  avisoGroup: {
+    marginBottom: 8,
+  },
+  avisoGroupHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    marginBottom: 12,
+    marginTop: 8,
+  },
+  avisoGroupIcon: {
+    width: 32,
+    height: 32,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  avisoGroupTitles: {
+    flex: 1,
+  },
+  avisoGroupTitle: {
+    fontSize: 15,
+    fontWeight: '700',
+    color: CflColors.grisOscuro,
+  },
+  avisoGroupSubtitle: {
+    fontSize: 12,
+    color: CflColors.grisClaro,
+    marginTop: 1,
+  },
   notifCard: {
     backgroundColor: CflColors.blanco,
     borderRadius: 14,
@@ -518,6 +596,9 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   typeBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: 6,

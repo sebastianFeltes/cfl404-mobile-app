@@ -18,6 +18,8 @@ export default function AppLayout() {
         drawerInactiveTintColor: Colors.grisOscuro,
         drawerPosition: 'right', // Se abre desde la derecha donde está el icono hamburguesa
         swipeEdgeWidth: 50,
+        drawerType: 'slide',
+        overlayColor: 'rgba(29, 30, 28, 0.45)',
       }}
     >
       <Drawer.Screen

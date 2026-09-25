@@ -8,6 +8,7 @@ import {
   SafeAreaView,
   Linking,
   Alert,
+  useWindowDimensions,
 } from 'react-native';
 import { Ionicons, FontAwesome6 } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -15,7 +16,19 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Palette, Typography } from '@/constants/theme';
 import { cflContactData } from '@/data/coursesData';
 
+const SOCIAL_BUTTON_COUNT = 6;
+const SOCIAL_GAP = 8;
+const SOCIAL_BUTTON_MAX = 46;
+
 export default function ContactoScreen() {
+  const { width: screenWidth } = useWindowDimensions();
+  const socialRowWidth = screenWidth - 32 - 34;
+  const socialButtonSize = Math.min(
+    SOCIAL_BUTTON_MAX,
+    Math.floor((socialRowWidth - SOCIAL_GAP * (SOCIAL_BUTTON_COUNT - 1)) / SOCIAL_BUTTON_COUNT),
+  );
+  const socialIconSize = Math.max(18, Math.round(socialButtonSize * 0.5));
+
   const handleOpenUrl = async (url: string, description: string) => {
     try {
       const supported = await Linking.canOpenURL(url);
@@ -61,74 +74,88 @@ export default function ContactoScreen() {
 
           <View style={styles.socialCard}>
             <View style={styles.firstRowContainer}>
-              {/* 1. Instagram (solo icono) */}
               <Pressable
                 accessibilityLabel="Instagram CFL 404"
                 style={({ pressed }) => [
                   styles.squareIconButton,
+                  { width: socialButtonSize, height: socialButtonSize },
                   styles.igBtn,
                   pressed && styles.buttonPressed,
                 ]}
                 onPress={() =>
                   handleOpenUrl(cflContactData.social.instagram, 'Instagram')
                 }>
-                <Ionicons name="logo-instagram" size={26} color={Palette.blanco} />
+                <Ionicons name="logo-instagram" size={socialIconSize} color={Palette.blanco} />
               </Pressable>
 
-              {/* 2. YouTube (solo icono) */}
               <Pressable
                 accessibilityLabel="YouTube CFL 404"
                 style={({ pressed }) => [
                   styles.squareIconButton,
+                  { width: socialButtonSize, height: socialButtonSize },
                   styles.ytBtn,
                   pressed && styles.buttonPressed,
                 ]}
                 onPress={() =>
                   handleOpenUrl(cflContactData.social.youtube, 'YouTube')
                 }>
-                <Ionicons name="logo-youtube" size={26} color={Palette.blanco} />
+                <Ionicons name="logo-youtube" size={socialIconSize} color={Palette.blanco} />
               </Pressable>
 
-              {/* 3. Facebook (solo icono) */}
               <Pressable
                 accessibilityLabel="Facebook CFL 404"
                 style={({ pressed }) => [
                   styles.squareIconButton,
+                  { width: socialButtonSize, height: socialButtonSize },
                   styles.fbBtn,
                   pressed && styles.buttonPressed,
                 ]}
                 onPress={() =>
                   handleOpenUrl(cflContactData.social.facebook, 'Facebook')
                 }>
-                <Ionicons name="logo-facebook" size={26} color={Palette.blanco} />
+                <Ionicons name="logo-facebook" size={socialIconSize} color={Palette.blanco} />
               </Pressable>
 
-              {/* 4. X (Twitter) (solo icono) */}
+              <Pressable
+                accessibilityLabel="TikTok CFL 404"
+                style={({ pressed }) => [
+                  styles.squareIconButton,
+                  { width: socialButtonSize, height: socialButtonSize },
+                  styles.ttBtn,
+                  pressed && styles.buttonPressed,
+                ]}
+                onPress={() =>
+                  handleOpenUrl(cflContactData.social.tiktok, 'TikTok')
+                }>
+                <Ionicons name="logo-tiktok" size={socialIconSize} color={Palette.blanco} />
+              </Pressable>
+
               <Pressable
                 accessibilityLabel="X (Twitter) CFL 404"
                 style={({ pressed }) => [
                   styles.squareIconButton,
+                  { width: socialButtonSize, height: socialButtonSize },
                   styles.xBtn,
                   pressed && styles.buttonPressed,
                 ]}
                 onPress={() =>
                   handleOpenUrl(cflContactData.social.twitterX, 'X')
                 }>
-                <FontAwesome6 name="x-twitter" size={22} color={Palette.blanco} />
+                <FontAwesome6 name="x-twitter" size={socialIconSize} color={Palette.blanco} />
               </Pressable>
 
-              {/* 5. Mail (solo icono) */}
               <Pressable
                 accessibilityLabel="Correo institucional CFL 404"
                 style={({ pressed }) => [
                   styles.squareIconButton,
+                  { width: socialButtonSize, height: socialButtonSize },
                   styles.mailBtn,
                   pressed && styles.buttonPressed,
                 ]}
                 onPress={() =>
                   handleOpenUrl(cflContactData.social.email, 'Correo Electrónico')
                 }>
-                <Ionicons name="mail" size={24} color={Palette.blanco} />
+                <Ionicons name="mail" size={socialIconSize} color={Palette.blanco} />
               </Pressable>
             </View>
           </View>
@@ -331,13 +358,11 @@ const styles = StyleSheet.create({
   },
   firstRowContainer: {
     flexDirection: 'row',
+    flexWrap: 'nowrap',
     justifyContent: 'space-between',
     alignItems: 'center',
-    gap: 8,
   },
   squareIconButton: {
-    flex: 1,
-    aspectRatio: 1,
     borderRadius: 14,
     alignItems: 'center',
     justifyContent: 'center',
@@ -359,6 +384,9 @@ const styles = StyleSheet.create({
   },
   fbBtn: {
     backgroundColor: '#1877F2',
+  },
+  ttBtn: {
+    backgroundColor: '#010101',
   },
   xBtn: {
     backgroundColor: '#000000',
@@ -383,7 +411,7 @@ const styles = StyleSheet.create({
   },
   fieldRow: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     paddingVertical: 12,
     gap: 12,
   },
@@ -403,6 +431,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#EBF4FA',
     justifyContent: 'center',
     alignItems: 'center',
+    alignSelf: 'center',
   },
   fieldTextContainer: {
     flex: 1,

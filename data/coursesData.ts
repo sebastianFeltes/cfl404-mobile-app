@@ -107,7 +107,7 @@ export const mockCourses: Course[] = [
     whatsappGroupUrl: 'https://chat.whatsapp.com/CFL404DevApps2026',
     resourcesUrl: 'https://drive.google.com/drive/folders/cfl404-mobile-apps',
     maxAbsences: 8,
-    absenceCount: 2,
+    absenceCount: 8,
     attendanceHistory: [
       {
         id: 'att-01',
@@ -323,6 +323,7 @@ export interface ContactInfo {
     instagram: string;
     youtube: string;
     facebook: string;
+    tiktok: string;
     twitterX: string;
     email: string;
     whatsapp: string;
@@ -342,6 +343,7 @@ export const cflContactData: ContactInfo = {
     instagram: 'https://instagram.com/cfl404berisso',
     youtube: 'https://youtube.com/@cfl404berisso',
     facebook: 'https://facebook.com/cfl404berisso',
+    tiktok: 'https://www.tiktok.com/@cfl404berisso',
     twitterX: 'https://x.com/cfl404berisso',
     email: 'mailto:cfp404berisso@abc.gob.ar',
     whatsapp: 'https://wa.me/5492213192360',

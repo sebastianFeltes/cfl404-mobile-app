@@ -1,6 +1,6 @@
 # Navegación — Expo Router
 
-Rutas file-based en `app/` (template Expo SDK 54; no usar `src/app/`). El starter `(tabs)/index` + `explore` se reemplaza por esta estructura.
+Rutas file-based en `app/` (template Expo SDK 57; no usar `src/app/`). El starter `(tabs)/index` + `explore` se reemplaza por esta estructura.
 
 ## Árbol propuesto
 

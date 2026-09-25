@@ -1,0 +1,14 @@
+---
+description: Usar APIs y docs de Expo SDK 57, no versiones nuevas
+alwaysApply: true
+---
+
+# Expo SDK 57
+
+Este proyecto está en **Expo SDK 57** (`expo ~57`).
+
+- Leer https://docs.expo.dev/versions/v57.0.0/ antes de agregar APIs
+- No usar APIs, paquetes ni snippets de SDK 58+
+- Compatibilidad de paquetes: `npx expo install <paquete>`
+- Router file-based en `app/` (template default SDK 57)
+- No importar `@react-navigation/*` en el código de la app. Usar `expo-router` y `expo-router/drawer`
