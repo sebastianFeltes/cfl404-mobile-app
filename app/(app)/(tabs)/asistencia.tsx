@@ -8,7 +8,7 @@
  */
 
 import React, { useMemo } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, useWindowDimensions } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 import { StatusBar } from 'expo-status-bar';
 import { useRouter } from 'expo-router';
@@ -23,6 +23,13 @@ export default function AsistenciaScreen() {
   const { user } = useAuth();
   const insets = useSafeAreaInsets();
   const router = useRouter();
+  const { width } = useWindowDimensions();
+
+  // QR ocupa casi todo el ancho de la pantalla de forma cuadrada
+  const qrCardPadding = 14;
+  const horizontalPadding = 16;
+  const qrSize = Math.min(width - (horizontalPadding * 2 + qrCardPadding * 2), 360);
+  const qrLogoSize = Math.round(qrSize * 0.2);
 
   const qrPayload = useMemo(() => {
     return generarJWT(user?.id || 'alumno-001');
@@ -58,7 +65,7 @@ export default function AsistenciaScreen() {
         {/* Identificación del alumno: Foto, Nombre y Apellido, Legajo */}
         <View style={styles.studentInfoContainer}>
           <View style={styles.avatarCircle}>
-            <Ionicons name="person" size={54} color={Colors.azul} />
+            <Ionicons name="person" size={48} color={Colors.azul} />
           </View>
           <Text style={styles.studentName}>
             {user?.nombre || 'Alumno'}
@@ -70,17 +77,17 @@ export default function AsistenciaScreen() {
 
         {/* QR con Logo del CFL en el centro con padding adecuado */}
         <View style={styles.qrSection}>
-          <View style={styles.qrWrapper}>
+          <View style={[styles.qrWrapper, { padding: qrCardPadding }]}>
             <QRCode
               value={qrPayload}
-              size={210}
+              size={qrSize}
               color={Colors.azul}
               backgroundColor={Colors.blanco}
               logo={require('@/assets/logo.png')}
-              logoSize={42}
+              logoSize={qrLogoSize}
               logoBackgroundColor={Colors.blanco}
               logoBorderRadius={8}
-              logoMargin={7}
+              logoMargin={6}
               ecl="H"
             />
           </View>
@@ -110,22 +117,22 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     alignItems: 'center',
-    paddingHorizontal: Spacing.lg,
+    paddingHorizontal: Spacing.md,
     paddingTop: Spacing.xs,
     paddingBottom: Spacing.xl,
   },
   studentInfoContainer: {
     alignItems: 'center',
-    marginBottom: Spacing.lg,
+    marginBottom: Spacing.md,
   },
   avatarCircle: {
-    width: 90,
-    height: 90,
-    borderRadius: 45,
+    width: 76,
+    height: 76,
+    borderRadius: 38,
     backgroundColor: Colors.blanco,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: Spacing.sm,
+    marginBottom: Spacing.xs,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.2,

@@ -1,17 +1,17 @@
 nosotros hacemos: rama flo-tom
 - dashboard
 - asistencia (QR)
+	
 
-- modificaciones:
-	- agregar un estilo de aura al QR (sacado de DaisyUI)
-	- sacar el scroll que hay en credencial
-	- agregar un snackbar al dashboard, que diga que hay avisos sin leer 
+
+
+
+
 
 
 credencial:
 	- el qr se genera a partir del codigo de asistencia (attendance_token) que 
 se carga al hacer login 
-
 
 
 

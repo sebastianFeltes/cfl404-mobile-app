@@ -15,6 +15,7 @@ import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { CflColors } from '@/constants/theme';
 import { MOCK_CURSOS, MOCK_NOTIFICACIONES, CourseItem, CourseNotification } from '@/constants/mocks';
+import { AvisosToast } from '@/components/AvisosToast';
 
 type TabType = 'cursos' | 'notificaciones';
 
@@ -92,6 +93,9 @@ export default function DashboardScreen() {
         {/* Pestaña: Mis Cursos */}
         {activeTab === 'cursos' && (
           <View>
+            {/* Banner/Toast de Avisos con gradiente institucional */}
+            <AvisosToast onPress={() => setActiveTab('notificaciones')} />
+
             <View style={styles.tabIntroRow}>
               <Text style={styles.tabIntroTitle}>Cursadas activas — Ciclo 2026</Text>
               <Text style={styles.tabIntroSubtitle}>
