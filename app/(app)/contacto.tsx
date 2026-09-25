@@ -34,7 +34,7 @@ export default function ContactoScreen() {
       <ScrollView
         contentContainerStyle={styles.container}
         showsVerticalScrollIndicator={false}>
-        {/* REQUERIMIENTO: Recuadro "Contacto Institucional" con degradé azul */}
+        {/* REQUERIMIENTO: Recuadro "Contacto Institucional" con degradé azul y letras blancas */}
         <LinearGradient
           colors={['#0C4A6E', Palette.azul, Palette.celeste]}
           start={{ x: 0, y: 0 }}
@@ -44,7 +44,7 @@ export default function ContactoScreen() {
             <Ionicons name="business" size={26} color={Palette.azul} />
           </View>
           <Text style={styles.titleBoldWhite}>Contacto Institucional</Text>
-          <Text style={styles.headerSubtitleGold}>
+          <Text style={styles.headerSubtitleWhite}>
             Centro de Formación Laboral N.º 404 — Sede Berisso
           </Text>
           <Text style={styles.headerTextWhite}>
@@ -52,23 +52,20 @@ export default function ContactoScreen() {
           </Text>
         </LinearGradient>
 
-        {/* Canales de Comunicación y Redes Sociales */}
-        <View style={styles.sectionCard}>
-          <Text style={styles.sectionTitleBold}>Canales de Comunicación</Text>
-          <Text style={styles.sectionSubtitle}>
-            Selecciona el medio por el cual deseas contactar al centro
-          </Text>
+        {/* PRIMERA SECCIÓN: Redes Sociales (solo iconos, botones cuadrados con bordes redondeados) */}
+        <View style={styles.sectionContainer}>
+          <View style={styles.sectionHeader}>
+            <Ionicons name="share-social-outline" size={20} color={Palette.azul} />
+            <Text style={styles.sectionTitle}>Redes Sociales y Correo</Text>
+          </View>
 
-          {/* PRIMERA FILA: Instagram, YouTube, Facebook, X y Mail
-              Botones cuadrados con bordes redondeados y sus respectivos logos */}
-          <View style={styles.rowBlock}>
-            <Text style={styles.rowLabelBold}>Redes Sociales y Correo Electrónico</Text>
+          <View style={styles.socialCard}>
             <View style={styles.firstRowContainer}>
-              {/* 1. Instagram */}
+              {/* 1. Instagram (solo icono) */}
               <Pressable
                 accessibilityLabel="Instagram CFL 404"
                 style={({ pressed }) => [
-                  styles.squareButton,
+                  styles.squareIconButton,
                   styles.igBtn,
                   pressed && styles.buttonPressed,
                 ]}
@@ -76,14 +73,13 @@ export default function ContactoScreen() {
                   handleOpenUrl(cflContactData.social.instagram, 'Instagram')
                 }>
                 <Ionicons name="logo-instagram" size={26} color={Palette.blanco} />
-                <Text style={styles.buttonMiniLabel}>Instagram</Text>
               </Pressable>
 
-              {/* 2. YouTube */}
+              {/* 2. YouTube (solo icono) */}
               <Pressable
                 accessibilityLabel="YouTube CFL 404"
                 style={({ pressed }) => [
-                  styles.squareButton,
+                  styles.squareIconButton,
                   styles.ytBtn,
                   pressed && styles.buttonPressed,
                 ]}
@@ -91,14 +87,13 @@ export default function ContactoScreen() {
                   handleOpenUrl(cflContactData.social.youtube, 'YouTube')
                 }>
                 <Ionicons name="logo-youtube" size={26} color={Palette.blanco} />
-                <Text style={styles.buttonMiniLabel}>YouTube</Text>
               </Pressable>
 
-              {/* 3. Facebook */}
+              {/* 3. Facebook (solo icono) */}
               <Pressable
                 accessibilityLabel="Facebook CFL 404"
                 style={({ pressed }) => [
-                  styles.squareButton,
+                  styles.squareIconButton,
                   styles.fbBtn,
                   pressed && styles.buttonPressed,
                 ]}
@@ -106,14 +101,13 @@ export default function ContactoScreen() {
                   handleOpenUrl(cflContactData.social.facebook, 'Facebook')
                 }>
                 <Ionicons name="logo-facebook" size={26} color={Palette.blanco} />
-                <Text style={styles.buttonMiniLabel}>Facebook</Text>
               </Pressable>
 
-              {/* 4. X (Twitter) */}
+              {/* 4. X (Twitter) (solo icono) */}
               <Pressable
                 accessibilityLabel="X (Twitter) CFL 404"
                 style={({ pressed }) => [
-                  styles.squareButton,
+                  styles.squareIconButton,
                   styles.xBtn,
                   pressed && styles.buttonPressed,
                 ]}
@@ -121,14 +115,13 @@ export default function ContactoScreen() {
                   handleOpenUrl(cflContactData.social.twitterX, 'X')
                 }>
                 <FontAwesome6 name="x-twitter" size={22} color={Palette.blanco} />
-                <Text style={styles.buttonMiniLabel}>X</Text>
               </Pressable>
 
-              {/* 5. Mail */}
+              {/* 5. Mail (solo icono) */}
               <Pressable
                 accessibilityLabel="Correo institucional CFL 404"
                 style={({ pressed }) => [
-                  styles.squareButton,
+                  styles.squareIconButton,
                   styles.mailBtn,
                   pressed && styles.buttonPressed,
                 ]}
@@ -136,96 +129,108 @@ export default function ContactoScreen() {
                   handleOpenUrl(cflContactData.social.email, 'Correo Electrónico')
                 }>
                 <Ionicons name="mail" size={24} color={Palette.blanco} />
-                <Text style={styles.buttonMiniLabel}>Mail</Text>
-              </Pressable>
-            </View>
-          </View>
-
-          {/* SEGUNDA FILA: WhatsApp y Teléfono Fijo */}
-          <View style={styles.rowBlock}>
-            <Text style={styles.rowLabelBold}>Atención Telefónica Directa</Text>
-            <View style={styles.secondRowContainer}>
-              {/* WhatsApp */}
-              <Pressable
-                accessibilityLabel="WhatsApp Institucional"
-                style={({ pressed }) => [
-                  styles.secondRowButton,
-                  styles.waBtn,
-                  pressed && styles.buttonPressed,
-                ]}
-                onPress={() =>
-                  handleOpenUrl(cflContactData.social.whatsapp, 'WhatsApp Institucional')
-                }>
-                <View style={styles.secondRowIconBox}>
-                  <Ionicons name="logo-whatsapp" size={26} color={Palette.blanco} />
-                </View>
-                <View style={styles.secondRowTextCol}>
-                  <Text style={styles.secondRowTitleBold}>WhatsApp Institucional</Text>
-                  <Text style={styles.secondRowSub}>Consultas estudiantiles</Text>
-                  <Text style={styles.secondRowNumber}>+54 9 221 319-2360</Text>
-                </View>
-                <Ionicons name="chevron-forward" size={18} color="#D1FAE5" />
-              </Pressable>
-
-              {/* Teléfono Fijo */}
-              <Pressable
-                accessibilityLabel="Teléfono Fijo CFL 404"
-                style={({ pressed }) => [
-                  styles.secondRowButton,
-                  styles.telBtn,
-                  pressed && styles.buttonPressed,
-                ]}
-                onPress={() =>
-                  handleOpenUrl(cflContactData.social.phone, 'Teléfono Fijo')
-                }>
-                <View style={[styles.secondRowIconBox, { backgroundColor: '#0C4A6E' }]}>
-                  <Ionicons name="call" size={24} color={Palette.blanco} />
-                </View>
-                <View style={styles.secondRowTextCol}>
-                  <Text style={styles.secondRowTitleBold}>Teléfono Fijo</Text>
-                  <Text style={styles.secondRowSub}>Sede central Berisso</Text>
-                  <Text style={styles.secondRowNumber}>{cflContactData.phone}</Text>
-                </View>
-                <Ionicons name="chevron-forward" size={18} color="#BAE6FD" />
               </Pressable>
             </View>
           </View>
         </View>
 
-        {/* Ubicación y Horarios de Atención */}
-        <View style={styles.infoCard}>
-          <Text style={styles.sectionTitleBold}>Sede y Horarios de Atención</Text>
-
-          <View style={styles.infoRow}>
-            <View style={styles.infoIconBox}>
-              <Ionicons name="location" size={20} color={Palette.azul} />
-            </View>
-            <View style={styles.infoTextCol}>
-              <Text style={styles.infoTitleBold}>Dirección</Text>
-              <Text style={styles.infoValue}>{cflContactData.address}</Text>
-              <Text style={styles.infoSub}>{cflContactData.city}</Text>
-            </View>
+        {/* SEGUNDA SECCIÓN: Atención Telefónica Directa (estilo 'iconos y letras' de PERFIL) */}
+        <View style={styles.sectionContainer}>
+          <View style={styles.sectionHeader}>
+            <Ionicons name="call-outline" size={20} color={Palette.azul} />
+            <Text style={styles.sectionTitle}>Atención Telefónica y Mensajería</Text>
           </View>
 
-          <View style={styles.infoRow}>
-            <View style={styles.infoIconBox}>
-              <Ionicons name="time" size={20} color={Palette.azul} />
-            </View>
-            <View style={styles.infoTextCol}>
-              <Text style={styles.infoTitleBold}>Horario de Preceptoría y Alumnos</Text>
-              <Text style={styles.infoValue}>{cflContactData.schedule}</Text>
-              <Text style={styles.infoSub}>Días hábiles escolares</Text>
-            </View>
+          <View style={styles.card}>
+            {/* WhatsApp Institucional */}
+            <Pressable
+              style={({ pressed }) => [styles.fieldPressableRow, pressed && styles.rowPressed]}
+              onPress={() =>
+                handleOpenUrl(cflContactData.social.whatsapp, 'WhatsApp Institucional')
+              }>
+              <View style={[styles.fieldIconContainer, { backgroundColor: '#DCFCE7' }]}>
+                <Ionicons name="logo-whatsapp" size={20} color={Palette.success} />
+              </View>
+              <View style={styles.fieldTextContainer}>
+                <Text style={styles.fieldLabel}>WHATSAPP INSTITUCIONAL</Text>
+                <Text style={styles.fieldValue}>+54 9 221 319-2360</Text>
+                <Text style={styles.fieldSub}>Consultas estudiantiles y trámites</Text>
+              </View>
+              <Ionicons name="chevron-forward" size={18} color={Palette.grisClaro} />
+            </Pressable>
+
+            <View style={styles.fieldDivider} />
+
+            {/* Teléfono Fijo */}
+            <Pressable
+              style={({ pressed }) => [styles.fieldPressableRow, pressed && styles.rowPressed]}
+              onPress={() =>
+                handleOpenUrl(cflContactData.social.phone, 'Teléfono Fijo')
+              }>
+              <View style={styles.fieldIconContainer}>
+                <Ionicons name="call-outline" size={18} color={Palette.azul} />
+              </View>
+              <View style={styles.fieldTextContainer}>
+                <Text style={styles.fieldLabel}>TELÉFONO FIJO</Text>
+                <Text style={styles.fieldValue}>{cflContactData.phone}</Text>
+                <Text style={styles.fieldSub}>Sede central Berisso</Text>
+              </View>
+              <Ionicons name="chevron-forward" size={18} color={Palette.grisClaro} />
+            </Pressable>
+          </View>
+        </View>
+
+        {/* TERCERA SECCIÓN: Sede y Horarios de Atención (estilo 'iconos y letras' de PERFIL) */}
+        <View style={styles.sectionContainer}>
+          <View style={styles.sectionHeader}>
+            <Ionicons name="location-outline" size={20} color={Palette.azul} />
+            <Text style={styles.sectionTitle}>Sede y Horarios de Atención</Text>
           </View>
 
-          <View style={styles.infoRow}>
-            <View style={styles.infoIconBox}>
-              <Ionicons name="mail-outline" size={20} color={Palette.azul} />
+          <View style={styles.card}>
+            {/* Dirección */}
+            <View style={styles.fieldRow}>
+              <View style={styles.fieldIconContainer}>
+                <Ionicons name="location-outline" size={18} color={Palette.azul} />
+              </View>
+              <View style={styles.fieldTextContainer}>
+                <Text style={styles.fieldLabel}>DIRECCIÓN</Text>
+                <Text style={styles.fieldValue}>{cflContactData.address}</Text>
+                <Text style={styles.fieldSub}>{cflContactData.city}</Text>
+              </View>
             </View>
-            <View style={styles.infoTextCol}>
-              <Text style={styles.infoTitleBold}>Correo Institucional Oficial</Text>
-              <Text style={styles.infoValue}>{cflContactData.email}</Text>
+
+            <View style={styles.fieldDivider} />
+
+            {/* Horario de Atención */}
+            <View style={styles.fieldRow}>
+              <View style={styles.fieldIconContainer}>
+                <Ionicons name="time-outline" size={18} color={Palette.azul} />
+              </View>
+              <View style={styles.fieldTextContainer}>
+                <Text style={styles.fieldLabel}>HORARIO DE PRECEPTORÍA Y ALUMNOS</Text>
+                <Text style={styles.fieldValue}>{cflContactData.schedule}</Text>
+                <Text style={styles.fieldSub}>Días hábiles escolares</Text>
+              </View>
             </View>
+
+            <View style={styles.fieldDivider} />
+
+            {/* Correo Oficial */}
+            <Pressable
+              style={({ pressed }) => [styles.fieldPressableRow, pressed && styles.rowPressed]}
+              onPress={() =>
+                handleOpenUrl(cflContactData.social.email, 'Correo Institucional')
+              }>
+              <View style={styles.fieldIconContainer}>
+                <Ionicons name="mail-outline" size={18} color={Palette.azul} />
+              </View>
+              <View style={styles.fieldTextContainer}>
+                <Text style={styles.fieldLabel}>CORREO INSTITUCIONAL OFICIAL</Text>
+                <Text style={styles.fieldValue}>{cflContactData.email}</Text>
+              </View>
+              <Ionicons name="chevron-forward" size={18} color={Palette.grisClaro} />
+            </Pressable>
           </View>
         </View>
       </ScrollView>
@@ -243,29 +248,29 @@ const styles = StyleSheet.create({
     paddingBottom: 40,
   },
   headerGradientCard: {
-    borderRadius: 16,
-    padding: 22,
-    marginBottom: 18,
+    borderRadius: 20,
+    padding: 24,
+    marginBottom: 20,
     alignItems: 'center',
     shadowColor: Palette.azul,
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.22,
     shadowRadius: 8,
     elevation: 4,
   },
   logoBadgeWhite: {
-    width: 52,
-    height: 52,
-    borderRadius: 26,
+    width: 54,
+    height: 54,
+    borderRadius: 27,
     backgroundColor: Palette.blanco,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 12,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.12,
     shadowRadius: 4,
-    elevation: 2,
+    elevation: 3,
   },
   titleBoldWhite: {
     fontFamily: Typography.fontFamily.bold,
@@ -275,62 +280,62 @@ const styles = StyleSheet.create({
     marginBottom: 4,
     textAlign: 'center',
   },
-  headerSubtitleGold: {
+  headerSubtitleWhite: {
     fontFamily: Typography.fontFamily.bold,
     fontWeight: 'bold',
     fontSize: 14,
-    color: Palette.amarillo,
+    color: Palette.blanco,
     marginBottom: 10,
     textAlign: 'center',
   },
   headerTextWhite: {
-    fontFamily: Typography.fontFamily.semiBold,
-    fontWeight: 'bold',
+    fontFamily: Typography.fontFamily.regular,
     fontSize: 13,
     color: '#E0F2FE',
     textAlign: 'center',
     lineHeight: 18,
   },
-  sectionCard: {
-    backgroundColor: Palette.blanco,
-    borderRadius: 14,
-    padding: 18,
-    marginBottom: 16,
-    borderWidth: 1,
-    borderColor: Palette.border,
+
+  /* Secciones estilo módulo Perfil */
+  sectionContainer: {
+    marginBottom: 20,
   },
-  sectionTitleBold: {
-    fontFamily: Typography.fontFamily.bold,
-    fontWeight: 'bold',
-    fontSize: 18,
-    color: Palette.grisOscuro,
-    marginBottom: 4,
-  },
-  sectionSubtitle: {
-    fontFamily: Typography.fontFamily.regular,
-    fontSize: 13,
-    color: Palette.grisClaro,
-    marginBottom: 18,
-  },
-  rowBlock: {
-    marginBottom: 18,
-  },
-  rowLabelBold: {
-    fontFamily: Typography.fontFamily.bold,
-    fontWeight: 'bold',
-    fontSize: 14,
-    color: Palette.grisOscuro,
+  sectionHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
     marginBottom: 10,
+    paddingHorizontal: 4,
+  },
+  sectionTitle: {
+    fontFamily: Typography.fontFamily.bold,
+    fontSize: 15,
+    fontWeight: '700',
+    color: Palette.grisOscuro,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
   },
 
-  /* PRIMERA FILA: 5 botones cuadrados con bordes redondeados */
+  /* Card contenedor de botones de redes sociales */
+  socialCard: {
+    backgroundColor: Palette.blanco,
+    borderRadius: 16,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: Palette.border,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.03,
+    shadowRadius: 3,
+    elevation: 1,
+  },
   firstRowContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     gap: 8,
   },
-  squareButton: {
+  squareIconButton: {
     flex: 1,
     aspectRatio: 1,
     borderRadius: 14,
@@ -341,19 +346,10 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 3,
-    padding: 6,
   },
   buttonPressed: {
     opacity: 0.85,
     transform: [{ scale: 0.96 }],
-  },
-  buttonMiniLabel: {
-    fontFamily: Typography.fontFamily.bold,
-    fontWeight: 'bold',
-    fontSize: 9,
-    color: Palette.blanco,
-    marginTop: 4,
-    textAlign: 'center',
   },
   igBtn: {
     backgroundColor: '#E1306C',
@@ -371,105 +367,70 @@ const styles = StyleSheet.create({
     backgroundColor: Palette.azul,
   },
 
-  /* SEGUNDA FILA: WhatsApp y Teléfono Fijo */
-  secondRowContainer: {
-    flexDirection: 'column',
-    gap: 12,
-  },
-  secondRowButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderRadius: 14,
-    padding: 14,
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 4,
-  },
-  waBtn: {
-    backgroundColor: '#10B981',
-  },
-  telBtn: {
-    backgroundColor: Palette.azul,
-  },
-  secondRowIconBox: {
-    width: 44,
-    height: 44,
-    borderRadius: 12,
-    backgroundColor: '#059669',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 14,
-  },
-  secondRowTextCol: {
-    flex: 1,
-  },
-  secondRowTitleBold: {
-    fontFamily: Typography.fontFamily.bold,
-    fontWeight: 'bold',
-    fontSize: 15,
-    color: Palette.blanco,
-    marginBottom: 2,
-  },
-  secondRowSub: {
-    fontFamily: Typography.fontFamily.regular,
-    fontSize: 12,
-    color: '#E0F2FE',
-  },
-  secondRowNumber: {
-    fontFamily: Typography.fontFamily.bold,
-    fontWeight: 'bold',
-    fontSize: 13,
-    color: Palette.amarillo,
-    marginTop: 2,
-  },
-
-  /* Información de sede y horarios */
-  infoCard: {
+  /* Card con estilo "iconos y letras" de PERFIL */
+  card: {
     backgroundColor: Palette.blanco,
-    borderRadius: 14,
-    padding: 18,
+    borderRadius: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 4,
     borderWidth: 1,
     borderColor: Palette.border,
-    marginBottom: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.03,
+    shadowRadius: 3,
+    elevation: 1,
   },
-  infoRow: {
+  fieldRow: {
     flexDirection: 'row',
     alignItems: 'flex-start',
     paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: Palette.surfaceSubtle,
+    gap: 12,
   },
-  infoIconBox: {
+  fieldPressableRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 12,
+    gap: 12,
+  },
+  rowPressed: {
+    opacity: 0.8,
+  },
+  fieldIconContainer: {
     width: 36,
     height: 36,
-    borderRadius: 8,
-    backgroundColor: '#EBF5FB',
-    alignItems: 'center',
+    borderRadius: 10,
+    backgroundColor: '#EBF4FA',
     justifyContent: 'center',
-    marginRight: 12,
+    alignItems: 'center',
   },
-  infoTextCol: {
+  fieldTextContainer: {
     flex: 1,
   },
-  infoTitleBold: {
+  fieldLabel: {
     fontFamily: Typography.fontFamily.bold,
-    fontWeight: 'bold',
+    fontSize: 11,
+    color: Palette.grisClaro,
+    fontWeight: '600',
+    marginBottom: 3,
+    textTransform: 'uppercase',
+    letterSpacing: 0.4,
+  },
+  fieldValue: {
+    fontFamily: Typography.fontFamily.semiBold,
     fontSize: 14,
     color: Palette.grisOscuro,
-    marginBottom: 2,
+    fontWeight: '600',
+    lineHeight: 20,
   },
-  infoValue: {
-    fontFamily: Typography.fontFamily.regular,
-    fontSize: 13,
-    color: Palette.grisOscuro,
-    lineHeight: 18,
-  },
-  infoSub: {
+  fieldSub: {
     fontFamily: Typography.fontFamily.regular,
     fontSize: 12,
     color: Palette.grisClaro,
     marginTop: 2,
+  },
+  fieldDivider: {
+    height: 1,
+    backgroundColor: Palette.border,
   },
 });

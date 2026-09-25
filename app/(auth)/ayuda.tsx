@@ -17,7 +17,7 @@ export default function AyudaAuthScreen() {
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Iniciar sesión</Text>
         <Text style={styles.sectionBody}>
-          Tocá el botón "Iniciar sesión con Google" y usá tu cuenta de correo
+          Tocá el botón &quot;Iniciar sesión con Google&quot; y usá tu cuenta de correo
           electrónico institucional para acceder a la app.
         </Text>
       </View>
@@ -33,7 +33,7 @@ export default function AyudaAuthScreen() {
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Credencial</Text>
         <Text style={styles.sectionBody}>
-          En la pestaña "Credencial" vas a encontrar tu carnet digital con un
+          En la pestaña &quot;Credencial&quot; vas a encontrar tu carnet digital con un
           código QR que el personal del instituto puede escanear para registrar
           tu asistencia.
         </Text>
@@ -43,7 +43,7 @@ export default function AyudaAuthScreen() {
         <Text style={styles.sectionTitle}>¿Problemas?</Text>
         <Text style={styles.sectionBody}>
           Si tenés algún inconveniente, contactá a la administración del CFL 404
-          a través de la sección "Contacto" dentro de la app.
+          a través de la sección &quot;Contacto&quot; dentro de la app.
         </Text>
       </View>
     </ScrollView>

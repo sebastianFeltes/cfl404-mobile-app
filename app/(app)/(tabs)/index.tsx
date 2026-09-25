@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { CflColors } from '@/constants/theme';
+import { CflColors, Fonts } from '@/constants/theme';
 import { MOCK_CURSOS, MOCK_NOTIFICACIONES, CourseItem, CourseNotification } from '@/constants/mocks';
 import { AvisosToast } from '@/components/AvisosToast';
 
@@ -104,6 +104,13 @@ export default function DashboardScreen() {
             </View>
 
             {MOCK_CURSOS.map((item: CourseItem) => {
+              const remainingAbsences = item.absenceLimit - item.absenceCount;
+              const isNearLimit = remainingAbsences <= 2;
+              const usedPercent = Math.min(
+                Math.round((item.absenceCount / item.absenceLimit) * 100),
+                100
+              );
+
               return (
                 <TouchableOpacity
                   key={item.userCourseId}
@@ -155,6 +162,69 @@ export default function DashboardScreen() {
                       <Ionicons name="ribbon-outline" size={16} color={CflColors.azul} />
                       <Text style={styles.detailText}>
                         {item.course.courseDetail.hourQuantity} hs cátedra
+                      </Text>
+                    </View>
+                  </View>
+
+                  <View
+                    style={[
+                      styles.attendanceBox,
+                      isNearLimit ? styles.attendanceBoxAlert : styles.attendanceBoxOk,
+                    ]}
+                  >
+                    <View style={styles.attendanceHeader}>
+                      <View style={styles.attendanceHeaderLeft}>
+                        <Ionicons
+                          name={isNearLimit ? 'alert-circle' : 'shield-checkmark'}
+                          size={16}
+                          color={isNearLimit ? CflColors.peligro : CflColors.exito}
+                        />
+                        <Text style={styles.attendanceLabel}>FALTAS RESTANTES</Text>
+                      </View>
+                      <View
+                        style={[
+                          styles.remainingBadge,
+                          isNearLimit ? styles.remainingBadgeAlert : styles.remainingBadgeOk,
+                        ]}
+                      >
+                        <Text
+                          style={[
+                            styles.remainingBadgeText,
+                            isNearLimit ? styles.remainingTextAlert : styles.remainingTextOk,
+                          ]}
+                        >
+                          {remainingAbsences > 0
+                            ? `${remainingAbsences} ${remainingAbsences === 1 ? 'disponible' : 'disponibles'}`
+                            : 'Sin cupo'}
+                        </Text>
+                      </View>
+                    </View>
+
+                    <View style={styles.progressBarBackground}>
+                      <View
+                        style={[
+                          styles.progressBarFill,
+                          {
+                            width: `${usedPercent}%`,
+                            backgroundColor: isNearLimit ? CflColors.peligro : CflColors.exito,
+                          },
+                        ]}
+                      />
+                    </View>
+
+                    <View style={styles.attendanceFooterRow}>
+                      <Text style={styles.absenceCountText}>
+                        {item.absenceCount} de {item.absenceLimit} faltas utilizadas
+                      </Text>
+                      <Text
+                        style={[
+                          styles.remainingAbsenceText,
+                          isNearLimit && styles.urgentAbsenceText,
+                        ]}
+                      >
+                        {remainingAbsences > 0
+                          ? `Te quedan ${remainingAbsences} falta${remainingAbsences > 1 ? 's' : ''}`
+                          : 'Límite alcanzado'}
                       </Text>
                     </View>
                   </View>
@@ -328,6 +398,90 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: CflColors.grisOscuro,
     fontWeight: '500',
+  },
+  attendanceBox: {
+    borderRadius: 12,
+    padding: 12,
+    borderWidth: 1,
+  },
+  attendanceBoxOk: {
+    backgroundColor: '#F0FDF4',
+    borderColor: '#BBF7D0',
+  },
+  attendanceBoxAlert: {
+    backgroundColor: '#FEF2F2',
+    borderColor: '#FECACA',
+  },
+  attendanceHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  attendanceHeaderLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  attendanceLabel: {
+    fontFamily: Fonts.title,
+    fontSize: 11,
+    fontWeight: '700',
+    color: CflColors.grisOscuro,
+    letterSpacing: 0.5,
+  },
+  remainingBadge: {
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 8,
+  },
+  remainingBadgeOk: {
+    backgroundColor: '#DCFCE7',
+  },
+  remainingBadgeAlert: {
+    backgroundColor: '#FEE2E2',
+  },
+  remainingBadgeText: {
+    fontFamily: Fonts.title,
+    fontSize: 12,
+    fontWeight: '700',
+  },
+  remainingTextOk: {
+    color: '#15803D',
+  },
+  remainingTextAlert: {
+    color: '#B91C1C',
+  },
+  progressBarBackground: {
+    height: 6,
+    backgroundColor: '#E2E8F0',
+    borderRadius: 3,
+    overflow: 'hidden',
+    marginBottom: 8,
+  },
+  progressBarFill: {
+    height: '100%',
+    borderRadius: 3,
+  },
+  attendanceFooterRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  absenceCountText: {
+    fontFamily: Fonts.body,
+    fontSize: 11,
+    color: CflColors.grisClaro,
+    fontWeight: '500',
+  },
+  remainingAbsenceText: {
+    fontFamily: Fonts.body,
+    fontSize: 12,
+    fontWeight: '700',
+    color: CflColors.exito,
+  },
+  urgentAbsenceText: {
+    color: CflColors.peligro,
   },
   courseAlertBanner: {
     flexDirection: 'row',

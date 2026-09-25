@@ -41,14 +41,14 @@ export default function CursosIndexScreen() {
               )}
             </View>
             <View style={styles.studentHeaderDetails}>
-              <Text style={styles.studentName}>
+              <Text style={styles.studentGreeting}>
                 {currentStudent.firstName.toUpperCase()} {currentStudent.lastName.toUpperCase()}
               </Text>
-              <Text style={styles.studentMetaText}>
+              <Text style={styles.studentDniText}>
                 DNI: {currentStudent.dni}
               </Text>
-              <Text style={styles.studentMetaText}>
-                {currentStudent.cycleLabel}
+              <Text style={styles.studentDniText}>
+                Ciclo Lectivo: 2026
               </Text>
             </View>
           </View>
@@ -189,7 +189,7 @@ export default function CursosIndexScreen() {
                             ? { color: Palette.warning }
                             : styles.absencePillTextGreen,
                         ]}>
-                        Faltas: {course.absenceCount} / {course.maxAbsences} ({course.maxAbsences - course.absenceCount} disponibles)
+                        Faltas disponibles: {course.maxAbsences - course.absenceCount} (Registradas: {course.absenceCount}/{course.maxAbsences})
                       </Text>
                     </View>
                   </View>
@@ -262,21 +262,33 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   studentAvatarBox: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
+    width: 64,
+    height: 64,
+    borderRadius: 32,
     backgroundColor: '#EBF5FB',
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 12,
+    marginRight: 14,
     overflow: 'hidden',
   },
   studentAvatarImage: {
-    width: 56,
-    height: 56,
+    width: '100%',
+    height: '100%',
   },
   studentHeaderDetails: {
     flex: 1,
+  },
+  studentGreeting: {
+    fontFamily: Typography.fontFamily.bold,
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: Palette.grisOscuro,
+  },
+  studentDniText: {
+    fontFamily: Typography.fontFamily.regular,
+    fontSize: 12,
+    color: Palette.grisClaro,
+    marginTop: 2,
   },
   studentName: {
     fontFamily: Typography.fontFamily.bold,

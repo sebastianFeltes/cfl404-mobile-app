@@ -31,7 +31,7 @@ export default function AyudaScreen() {
       title: 'Seguimiento de Cursada y Faltas',
       description:
         'En la pestaña "Cursos" puedes ver todas las materias en las que estás inscripto. Dentro de cada curso encontrarás los datos del aula, docente, enlace al grupo de WhatsApp y recursos académicos.',
-      important: 'Usa el botón rectangular "Ver Asistencia" dentro del curso para consultar tu porcentaje de presentismo y faltas restantes.',
+      important: 'Usa el botón rectangular "Ver Asistencia" dentro del curso para consultar las faltas restantes y el historial de clases.',
     },
     {
       id: 'justificaciones',
@@ -56,7 +56,7 @@ export default function AyudaScreen() {
       <ScrollView
         contentContainerStyle={styles.container}
         showsVerticalScrollIndicator={false}>
-        {/* ENCABEZADO CON DEGRADÉ DE COLORES Y LETRA EN NEGRITA */}
+        {/* ENCABEZADO CON DEGRADÉ DE COLORES Y LETRA EN BLANCO (ESTILO PERFIL) */}
         <LinearGradient
           colors={[Palette.azul, Palette.celeste]}
           start={{ x: 0, y: 0 }}
@@ -74,33 +74,36 @@ export default function AyudaScreen() {
           </Text>
         </LinearGradient>
 
-        {/* Bloque de Acceso Exclusivo para Alumnos */}
-        <View style={styles.noticeCard}>
-          <Ionicons name="information-circle" size={24} color={Palette.azul} />
-          <View style={styles.noticeContent}>
-            <Text style={styles.noticeTitleBold}>APLICACIÓN EXCLUSIVA PARA ALUMNOS</Text>
-            <Text style={styles.noticeTextBold}>
+        {/* Bloque de Acceso Exclusivo para Alumnos con estilo disclaimer de Perfil */}
+        <View style={styles.disclaimerBox}>
+          <Ionicons name="information-circle" size={22} color={Palette.azul} />
+          <View style={styles.disclaimerTextWrapper}>
+            <Text style={styles.disclaimerTitleBold}>APLICACIÓN EXCLUSIVA PARA ALUMNOS</Text>
+            <Text style={styles.disclaimerText}>
               Esta app está diseñada para facilitar tu vida académica en el centro. Tus datos filiatorios están protegidos y validados por preceptoría.
             </Text>
           </View>
         </View>
 
-        {/* Tarjetas de temas de ayuda con títulos y textos destacados en negrita */}
-        <View style={styles.section}>
-          <Text style={styles.sectionHeadingBold}>Preguntas Frecuentes y Guías</Text>
+        {/* Tarjetas de temas de ayuda al estilo del módulo Perfil */}
+        <View style={styles.sectionContainer}>
+          <View style={styles.sectionHeader}>
+            <Ionicons name="help-circle-outline" size={20} color={Palette.azul} />
+            <Text style={styles.sectionTitle}>Preguntas Frecuentes y Guías</Text>
+          </View>
 
           {helpTopics.map((topic) => (
             <View key={topic.id} style={styles.topicCard}>
               <View style={styles.topicHeader}>
                 <View style={styles.topicIconBox}>
-                  <Ionicons name={topic.icon} size={22} color={Palette.azul} />
+                  <Ionicons name={topic.icon} size={20} color={Palette.azul} />
                 </View>
                 <Text style={styles.topicTitleBold}>{topic.title}</Text>
               </View>
 
               <Text style={styles.topicDescription}>{topic.description}</Text>
 
-              {/* REQUERIMIENTO: Recuadro con la leyenda "importante" coloreado de verde */}
+              {/* REQUERIMIENTO: Mantener las cards verdes con leyenda "importante" */}
               <View style={styles.importantCalloutGreen}>
                 <View style={styles.importantHeaderRow}>
                   <Ionicons name="checkmark-circle" size={15} color={Palette.success} style={{ marginRight: 5 }} />
@@ -184,7 +187,7 @@ const styles = StyleSheet.create({
     fontFamily: Typography.fontFamily.bold,
     fontWeight: 'bold',
     fontSize: 14,
-    color: Palette.amarillo,
+    color: Palette.blanco,
     marginBottom: 10,
     textAlign: 'center',
   },
@@ -197,60 +200,68 @@ const styles = StyleSheet.create({
     lineHeight: 19,
   },
 
-  noticeCard: {
-    backgroundColor: Palette.blanco,
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 20,
+  /* Disclaimer con estilo del módulo Perfil */
+  disclaimerBox: {
     flexDirection: 'row',
     alignItems: 'flex-start',
+    backgroundColor: '#EBF4FA',
+    borderRadius: 14,
+    padding: 14,
+    gap: 10,
+    marginBottom: 20,
     borderWidth: 1,
-    borderColor: '#D4E6F1',
-    borderLeftWidth: 4,
-    borderLeftColor: Palette.azul,
+    borderColor: '#D4E7F5',
   },
-  noticeContent: {
+  disclaimerTextWrapper: {
     flex: 1,
-    marginLeft: 12,
   },
-  noticeTitleBold: {
+  disclaimerTitleBold: {
     fontFamily: Typography.fontFamily.bold,
     fontWeight: 'bold',
+    fontSize: 11,
+    color: Palette.azul,
+    letterSpacing: 0.4,
+    marginBottom: 3,
+    textTransform: 'uppercase',
+  },
+  disclaimerText: {
+    fontFamily: Typography.fontFamily.regular,
     fontSize: 12,
     color: Palette.azul,
-    letterSpacing: 0.5,
-    marginBottom: 4,
-  },
-  noticeTextBold: {
-    fontFamily: Typography.fontFamily.bold,
-    fontWeight: 'bold',
-    fontSize: 13,
-    color: Palette.grisOscuro,
     lineHeight: 18,
   },
 
-  section: {
+  /* Secciones con estilo del módulo Perfil */
+  sectionContainer: {
     marginBottom: 20,
   },
-  sectionHeadingBold: {
+  sectionHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginBottom: 12,
+    paddingHorizontal: 4,
+  },
+  sectionTitle: {
     fontFamily: Typography.fontFamily.bold,
-    fontWeight: 'bold',
-    fontSize: 18,
+    fontSize: 15,
+    fontWeight: '700',
     color: Palette.grisOscuro,
-    marginBottom: 14,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
   },
   topicCard: {
     backgroundColor: Palette.blanco,
-    borderRadius: 14,
+    borderRadius: 16,
     padding: 18,
     marginBottom: 14,
     borderWidth: 1,
     borderColor: Palette.border,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.04,
+    shadowOpacity: 0.03,
     shadowRadius: 3,
-    elevation: 2,
+    elevation: 1,
   },
   topicHeader: {
     flexDirection: 'row',
@@ -261,7 +272,7 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 10,
-    backgroundColor: '#EBF5FB',
+    backgroundColor: '#EBF4FA',
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: 12,
@@ -269,7 +280,7 @@ const styles = StyleSheet.create({
   topicTitleBold: {
     fontFamily: Typography.fontFamily.bold,
     fontWeight: 'bold',
-    fontSize: 16,
+    fontSize: 15,
     color: Palette.grisOscuro,
     flex: 1,
   },
