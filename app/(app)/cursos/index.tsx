@@ -95,13 +95,6 @@ export default function CursosScreen() {
             </View>
 
             {MOCK_CURSOS.map((item: CourseItem) => {
-              const remainingAbsences = item.absenceLimit - item.absenceCount;
-              const attendancePercent = Math.round(
-                (item.attendanceSummary.present /
-                  (item.attendanceSummary.present + item.attendanceSummary.absent)) *
-                  100
-              );
-
               return (
                 <TouchableOpacity
                   key={item.userCourseId}
@@ -153,45 +146,6 @@ export default function CursosScreen() {
                       <Ionicons name="ribbon-outline" size={16} color={CflColors.azul} />
                       <Text style={styles.detailText}>
                         {item.course.courseDetail.hourQuantity} hs cátedra
-                      </Text>
-                    </View>
-                  </View>
-
-                  {/* Resumen de Asistencia */}
-                  <View style={styles.attendanceBox}>
-                    <View style={styles.attendanceHeader}>
-                      <Text style={styles.attendanceLabel}>Presentismo registrado</Text>
-                      <Text style={styles.attendancePercentage}>{attendancePercent}%</Text>
-                    </View>
-
-                    {/* Barra de progreso de asistencia */}
-                    <View style={styles.progressBarBackground}>
-                      <View
-                        style={[
-                          styles.progressBarFill,
-                          {
-                            width: `${Math.min(attendancePercent, 100)}%`,
-                            backgroundColor:
-                              remainingAbsences <= 2 ? CflColors.peligro : CflColors.azul,
-                          },
-                        ]}
-                      />
-                    </View>
-
-                    <View style={styles.attendanceFooter}>
-                      <Text style={styles.absenceText}>
-                        Faltas: <Text style={styles.boldText}>{item.absenceCount}</Text> de{' '}
-                        {item.absenceLimit} máx.
-                      </Text>
-                      <Text
-                        style={[
-                          styles.remainingAbsenceText,
-                          remainingAbsences <= 2 && styles.urgentAbsenceText,
-                        ]}
-                      >
-                        {remainingAbsences > 0
-                          ? `Te restan ${remainingAbsences} falta${remainingAbsences > 1 ? 's' : ''}`
-                          : 'Límite alcanzado'}
                       </Text>
                     </View>
                   </View>

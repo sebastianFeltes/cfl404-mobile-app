@@ -46,9 +46,6 @@ export default function PerfilScreen() {
         <Text style={styles.emailText}>{user.email}</Text>
 
         <View style={styles.tagsRow}>
-          <View style={styles.roleTag}>
-            <Text style={styles.roleTagText}>{user.role}</Text>
-          </View>
           <View style={styles.statusTag}>
             <View style={styles.statusDot} />
             <Text style={styles.statusTagText}>{user.status}</Text>

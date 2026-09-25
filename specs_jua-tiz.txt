@@ -6,5 +6,8 @@ Mi Perfil:
 	Cambio de Titulo y Escolaridad en Informacion Personal,Contactos,Restringir los datos para no editarlos
 	agregar iconos a los campos del perfi
         quitar boton de edicion de datos(no podes cambiar los datos una vez que el alumno es dado de alta)
+        Eliminar Badge de Alumnos
 Cursos:
        Agregar porcentaje de Curso Completado
+       Barra de Avance en lugar de % que sea cantidad de clases sobre clases dictadas
+       Borrar barra de asistencia y  barra de avance de la seccion cursos

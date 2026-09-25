@@ -56,13 +56,6 @@ export default function DashboardScreen() {
       </View>
 
       {MOCK_CURSOS.map((item) => {
-        const remainingAbsences = item.absenceLimit - item.absenceCount;
-        const attendancePercent = Math.round(
-          (item.attendanceSummary.present /
-            (item.attendanceSummary.present + item.attendanceSummary.absent)) *
-            100
-        );
-
         return (
           <TouchableOpacity
             key={item.userCourseId}
@@ -99,35 +92,6 @@ export default function DashboardScreen() {
                 <Ionicons name="location-outline" size={16} color={CflColors.azul} />
                 <Text style={styles.detailText}>{item.classroom}</Text>
               </View>
-            </View>
-
-            <View style={styles.attendanceBox}>
-              <View style={styles.attendanceHeader}>
-                <Text style={styles.attendanceLabel}>Presentismo</Text>
-                <Text style={styles.attendancePercentage}>{attendancePercent}%</Text>
-              </View>
-              <View style={styles.progressBarBackground}>
-                <View
-                  style={[
-                    styles.progressBarFill,
-                    {
-                      width: `${Math.min(attendancePercent, 100)}%`,
-                      backgroundColor:
-                        remainingAbsences <= 2 ? CflColors.peligro : CflColors.azul,
-                    },
-                  ]}
-                />
-              </View>
-              <Text
-                style={[
-                  styles.remainingAbsenceText,
-                  remainingAbsences <= 2 && styles.urgentAbsenceText,
-                ]}
-              >
-                {remainingAbsences > 0
-                  ? `Te restan ${remainingAbsences} falta${remainingAbsences > 1 ? 's' : ''}`
-                  : 'Límite alcanzado'}
-              </Text>
             </View>
 
             <View style={styles.cardFooter}>
