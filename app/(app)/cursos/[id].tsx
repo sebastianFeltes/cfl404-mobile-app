@@ -41,7 +41,6 @@ export default function CursoDetalleScreen() {
   }
 
   // Cálculos métricos de asistencia
-  const totalClasses = course.attendanceHistory.length;
   const presentCount = course.attendanceHistory.filter(
     (a) => a.codeName === 'presente'
   ).length;
@@ -55,9 +54,7 @@ export default function CursoDetalleScreen() {
     (a) => a.countsAsAbsence
   ).length;
 
-  const attendancePercentage =
-    totalClasses > 0 ? Math.round(((presentCount + lateCount) / totalClasses) * 100) : 100;
-  const absenceRatio = course.absenceCount / course.maxAbsences;
+  const remainingAbsences = Math.max(0, course.maxAbsences - course.absenceCount);
   const isNearLimit = course.absenceCount >= course.maxAbsences - 2;
 
   const handleOpenLink = async (url: string, label: string) => {
@@ -256,49 +253,91 @@ export default function CursoDetalleScreen() {
         {/* Historial y Métricas de Asistencia y Presentismo */}
         {showAttendanceHistory && (
           <View style={styles.attendanceContainer}>
-            {/* Panel de métricas de presentismo */}
+            {/* Panel de métricas de presentismo y faltas restantes */}
             <View style={styles.metricsCard}>
               <View style={styles.metricHeader}>
-                <Text style={styles.metricTitle}>Estado de Presentismo</Text>
+                <View>
+                  <Text style={styles.metricTitle}>Estado de Presentismo</Text>
+                  <Text style={styles.metricSubtitle}>Seguimiento de regularidad</Text>
+                </View>
                 <View
                   style={[
                     styles.metricBadge,
                     isNearLimit ? styles.metricBadgeDanger : styles.metricBadgeSuccess,
                   ]}>
+                  <Ionicons
+                    name={isNearLimit ? 'alert-circle' : 'shield-checkmark'}
+                    size={13}
+                    color={isNearLimit ? Palette.danger : Palette.success}
+                    style={{ marginRight: 4 }}
+                  />
                   <Text
                     style={[
                       styles.metricBadgeText,
                       isNearLimit && { color: Palette.danger },
                     ]}>
-                    {attendancePercentage}% de Asistencia
+                    {remainingAbsences > 0 ? `${remainingAbsences} disponibles` : 'Sin cupo'}
                   </Text>
                 </View>
               </View>
 
-              {/* Barra de límite de faltas */}
-              <View style={styles.progressBarWrapper}>
-                <View style={styles.progressTextRow}>
-                  <Text style={styles.progressLabel}>Límite de Inasistencias:</Text>
-                  <Text style={styles.progressValues}>
-                    {course.absenceCount} de {course.maxAbsences} faltas consumidas
-                  </Text>
+              {/* RECUADRO NOTABLE DE FALTAS QUE QUEDAN */}
+              <View
+                style={[
+                  styles.remainingHighlightCard,
+                  isNearLimit ? styles.remainingCardAlert : styles.remainingCardSuccess,
+                ]}>
+                <View style={styles.remainingCardTop}>
+                  <View
+                    style={[
+                      styles.remainingIconBox,
+                      isNearLimit ? styles.remainingIconBoxAlert : styles.remainingIconBoxSuccess,
+                    ]}>
+                    <Ionicons
+                      name={isNearLimit ? 'alert-circle' : 'calendar-outline'}
+                      size={24}
+                      color={isNearLimit ? Palette.danger : Palette.success}
+                    />
+                  </View>
+                  <View style={styles.remainingContentCol}>
+                    <Text style={styles.remainingCardTag}>FALTAS RESTANTES DISPONIBLES</Text>
+                    <Text
+                      style={[
+                        styles.remainingBigNumber,
+                        { color: isNearLimit ? Palette.danger : Palette.success },
+                      ]}>
+                      {remainingAbsences} {remainingAbsences === 1 ? 'FALTA' : 'FALTAS'}
+                    </Text>
+                  </View>
                 </View>
+
+                {/* Barra de progreso visual de faltas consumidas */}
                 <View style={styles.progressTrack}>
                   <View
                     style={[
                       styles.progressBarFill,
                       {
-                        width: `${Math.min(100, Math.max(8, absenceRatio * 100))}%`,
+                        width: `${Math.min(100, Math.max(6, (course.absenceCount / course.maxAbsences) * 100))}%`,
                         backgroundColor: isNearLimit ? Palette.danger : Palette.success,
                       },
                     ]}
                   />
                 </View>
-                <Text style={styles.progressHint}>
-                  {course.maxAbsences - course.absenceCount > 0
-                    ? `Dispones de ${course.maxAbsences - course.absenceCount} faltas antes de perder la regularidad.`
-                    : 'Has alcanzado el límite máximo de inasistencias permitidas.'}
-                </Text>
+
+                <View style={styles.progressTextRow}>
+                  <Text style={styles.progressLabel}>
+                    Consumidas: <Text style={styles.progressLabelBold}>{course.absenceCount}</Text> de {course.maxAbsences} permitidas
+                  </Text>
+                  <Text
+                    style={[
+                      styles.progressRemainingLabel,
+                      { color: isNearLimit ? Palette.danger : Palette.success },
+                    ]}>
+                    {remainingAbsences > 0
+                      ? `Te quedan ${remainingAbsences} faltas`
+                      : 'Límite alcanzado'}
+                  </Text>
+                </View>
               </View>
 
               {/* Desglose de Clases con Presentes en Verde */}
@@ -698,7 +737,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: 14,
   },
   metricTitle: {
     fontFamily: Typography.fontFamily.bold,
@@ -706,9 +745,17 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: Palette.grisOscuro,
   },
+  metricSubtitle: {
+    fontFamily: Typography.fontFamily.regular,
+    fontSize: 12,
+    color: Palette.grisClaro,
+    marginTop: 1,
+  },
   metricBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingHorizontal: 10,
-    paddingVertical: 4,
+    paddingVertical: 5,
     borderRadius: 8,
   },
   metricBadgeSuccess: {
@@ -718,47 +765,96 @@ const styles = StyleSheet.create({
   },
   metricBadgeDanger: {
     backgroundColor: '#FEE2E2',
+    borderWidth: 1,
+    borderColor: '#FCA5A5',
   },
   metricBadgeText: {
     fontFamily: Typography.fontFamily.bold,
     fontWeight: 'bold',
-    fontSize: 13,
+    fontSize: 12,
     color: Palette.success,
   },
-  progressBarWrapper: {
+
+  /* Recuadro notable de faltas restantes */
+  remainingHighlightCard: {
+    borderRadius: 14,
+    padding: 16,
     marginBottom: 16,
+    borderWidth: 1.5,
   },
-  progressTextRow: {
+  remainingCardSuccess: {
+    backgroundColor: '#F0FDF4',
+    borderColor: '#86EFAC',
+  },
+  remainingCardAlert: {
+    backgroundColor: '#FEF2F2',
+    borderColor: '#FCA5A5',
+  },
+  remainingCardTop: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 6,
+    alignItems: 'center',
+    marginBottom: 12,
+    gap: 12,
   },
-  progressLabel: {
-    fontFamily: Typography.fontFamily.semiBold,
-    fontSize: 13,
-    color: Palette.grisOscuro,
+  remainingIconBox: {
+    width: 46,
+    height: 46,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  progressValues: {
+  remainingIconBoxSuccess: {
+    backgroundColor: '#DCFCE7',
+  },
+  remainingIconBoxAlert: {
+    backgroundColor: '#FEE2E2',
+  },
+  remainingContentCol: {
+    flex: 1,
+  },
+  remainingCardTag: {
     fontFamily: Typography.fontFamily.bold,
     fontWeight: 'bold',
-    fontSize: 13,
-    color: Palette.azul,
+    fontSize: 11,
+    color: Palette.grisClaro,
+    letterSpacing: 0.5,
+    marginBottom: 2,
+  },
+  remainingBigNumber: {
+    fontFamily: Typography.fontFamily.extraBold,
+    fontWeight: '800',
+    fontSize: 22,
+    letterSpacing: 0.5,
   },
   progressTrack: {
     height: 8,
     borderRadius: 4,
-    backgroundColor: Palette.surfaceSubtle,
+    backgroundColor: '#E2E8F0',
     overflow: 'hidden',
-    marginBottom: 6,
+    marginBottom: 8,
   },
   progressBarFill: {
     height: '100%',
     borderRadius: 4,
   },
-  progressHint: {
+  progressTextRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  progressLabel: {
     fontFamily: Typography.fontFamily.regular,
     fontSize: 12,
-    color: Palette.grisClaro,
+    color: Palette.grisOscuro,
+  },
+  progressLabelBold: {
+    fontFamily: Typography.fontFamily.bold,
+    fontWeight: 'bold',
+  },
+  progressRemainingLabel: {
+    fontFamily: Typography.fontFamily.bold,
+    fontWeight: 'bold',
+    fontSize: 12,
   },
   breakdownRow: {
     flexDirection: 'row',

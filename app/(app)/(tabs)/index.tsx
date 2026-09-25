@@ -57,10 +57,10 @@ export default function DashboardScreen() {
 
       {MOCK_CURSOS.map((item) => {
         const remainingAbsences = item.absenceLimit - item.absenceCount;
-        const attendancePercent = Math.round(
-          (item.attendanceSummary.present /
-            (item.attendanceSummary.present + item.attendanceSummary.absent)) *
-            100
+        const isNearLimit = remainingAbsences <= 2;
+        const usedPercent = Math.min(
+          Math.round((item.absenceCount / item.absenceLimit) * 100),
+          100
         );
 
         return (
@@ -101,33 +101,69 @@ export default function DashboardScreen() {
               </View>
             </View>
 
-            <View style={styles.attendanceBox}>
+            {/* Recuadro de presentismo sin porcentaje y con faltas restantes muy notables */}
+            <View
+              style={[
+                styles.attendanceBox,
+                isNearLimit ? styles.attendanceBoxAlert : styles.attendanceBoxOk,
+              ]}
+            >
               <View style={styles.attendanceHeader}>
-                <Text style={styles.attendanceLabel}>Presentismo</Text>
-                <Text style={styles.attendancePercentage}>{attendancePercent}%</Text>
+                <View style={styles.attendanceHeaderLeft}>
+                  <Ionicons
+                    name={isNearLimit ? 'alert-circle' : 'shield-checkmark'}
+                    size={16}
+                    color={isNearLimit ? CflColors.peligro : CflColors.exito}
+                  />
+                  <Text style={styles.attendanceLabel}>FALTAS RESTANTES</Text>
+                </View>
+                <View
+                  style={[
+                    styles.remainingBadge,
+                    isNearLimit ? styles.remainingBadgeAlert : styles.remainingBadgeOk,
+                  ]}
+                >
+                  <Text
+                    style={[
+                      styles.remainingBadgeText,
+                      isNearLimit ? styles.remainingTextAlert : styles.remainingTextOk,
+                    ]}
+                  >
+                    {remainingAbsences > 0
+                      ? `${remainingAbsences} ${remainingAbsences === 1 ? 'disponible' : 'disponibles'}`
+                      : 'Sin cupo'}
+                  </Text>
+                </View>
               </View>
+
               <View style={styles.progressBarBackground}>
                 <View
                   style={[
                     styles.progressBarFill,
                     {
-                      width: `${Math.min(attendancePercent, 100)}%`,
+                      width: `${usedPercent}%`,
                       backgroundColor:
-                        remainingAbsences <= 2 ? CflColors.peligro : CflColors.azul,
+                        isNearLimit ? CflColors.peligro : CflColors.exito,
                     },
                   ]}
                 />
               </View>
-              <Text
-                style={[
-                  styles.remainingAbsenceText,
-                  remainingAbsences <= 2 && styles.urgentAbsenceText,
-                ]}
-              >
-                {remainingAbsences > 0
-                  ? `Te restan ${remainingAbsences} falta${remainingAbsences > 1 ? 's' : ''}`
-                  : 'Límite alcanzado'}
-              </Text>
+
+              <View style={styles.attendanceFooterRow}>
+                <Text style={styles.absenceCountText}>
+                  {item.absenceCount} de {item.absenceLimit} faltas utilizadas
+                </Text>
+                <Text
+                  style={[
+                    styles.remainingAbsenceText,
+                    isNearLimit && styles.urgentAbsenceText,
+                  ]}
+                >
+                  {remainingAbsences > 0
+                    ? `Te quedan ${remainingAbsences} falta${remainingAbsences > 1 ? 's' : ''}`
+                    : 'Límite alcanzado'}
+                </Text>
+              </View>
             </View>
 
             <View style={styles.cardFooter}>
@@ -284,27 +320,57 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   attendanceBox: {
-    backgroundColor: '#F8FAFC',
-    borderRadius: 10,
+    borderRadius: 12,
     padding: 12,
     borderWidth: 1,
-    borderColor: CflColors.borde,
+  },
+  attendanceBoxOk: {
+    backgroundColor: '#F0FDF4',
+    borderColor: '#BBF7D0',
+  },
+  attendanceBoxAlert: {
+    backgroundColor: '#FEF2F2',
+    borderColor: '#FECACA',
   },
   attendanceHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 6,
+    marginBottom: 8,
+  },
+  attendanceHeaderLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
   },
   attendanceLabel: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: CflColors.grisClaro,
-  },
-  attendancePercentage: {
-    fontSize: 14,
+    fontFamily: Fonts.title,
+    fontSize: 11,
     fontWeight: '700',
-    color: CflColors.azul,
+    color: CflColors.grisOscuro,
+    letterSpacing: 0.5,
+  },
+  remainingBadge: {
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 8,
+  },
+  remainingBadgeOk: {
+    backgroundColor: '#DCFCE7',
+  },
+  remainingBadgeAlert: {
+    backgroundColor: '#FEE2E2',
+  },
+  remainingBadgeText: {
+    fontFamily: Fonts.title,
+    fontSize: 12,
+    fontWeight: '700',
+  },
+  remainingTextOk: {
+    color: '#15803D',
+  },
+  remainingTextAlert: {
+    color: '#B91C1C',
   },
   progressBarBackground: {
     height: 6,
@@ -317,9 +383,21 @@ const styles = StyleSheet.create({
     height: '100%',
     borderRadius: 3,
   },
+  attendanceFooterRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  absenceCountText: {
+    fontFamily: Fonts.body,
+    fontSize: 11,
+    color: CflColors.grisClaro,
+    fontWeight: '500',
+  },
   remainingAbsenceText: {
+    fontFamily: Fonts.body,
     fontSize: 12,
-    fontWeight: '600',
+    fontWeight: '700',
     color: CflColors.exito,
   },
   urgentAbsenceText: {
