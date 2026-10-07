@@ -4,7 +4,7 @@ Documento de referencia para consumir datos del backend CFL 404 desde la app Exp
 
 **Alcance mobile v1**
 
-- Usuarios: rol `ALUMNO` (lectura únicamente).
+- Usuarios: rol `alumno` (lectura únicamente).
 - Una vez matriculado, los datos filiatorios no se editan desde la app (igual que la web).
 - Pantallas según `docs/producto.md` y `docs/navegacion.md`.
 
@@ -53,10 +53,10 @@ Respuesta — campos a leer:
 | `user.lastName` | string | `users.last_name` | Credencial, perfil |
 | `user.email` | string | `users.email` | Perfil (solo lectura) |
 | `user.dni` | string \| null | `users.dni` | Credencial, perfil |
-| `user.role` | string | `role.name` | Gate: solo `ALUMNO` |
-| `user.roleId` | number | `users.role_id` | `8` = ALUMNO |
+| `user.role` | string | `role.name` | Gate: solo `alumno` |
+| `user.roleId` | number | `users.role_id` | `8` = alumno |
 | `user.statusId` | number | `users.status_id` | Ver catálogo abajo |
-| `user.status` | string | derivado | `"Activo"`, `"Pendiente"`, etc. |
+| `user.status` | string | derivado | `"activo"`, `"pendiente"`, etc. |
 | `user.emailVerified` | boolean | `users.email_verified` | Perfil |
 | `user.profilePhotoUrl` | string \| null | `users.profile_photo_url` | Credencial, avatar |
 | `user.locale` | string \| null | `users.locale` | Opcional |
@@ -120,7 +120,7 @@ Respuesta sugerida — cada ítem del array `courses`:
 | `course.id` | string | `course.id` | Navegación `[id]` |
 | `course.name` | string | `course.name` | Título |
 | `course.statusId` | number | `course.status_id` | Badge estado cursada |
-| `course.status.name` | string | `status.name` | Texto: ACTIVO, etc. |
+| `course.status.name` | string | `status.name` | Texto: activo, etc. |
 | `course.startDate` | string \| null | `course.start_date` | Fechas |
 | `course.endDate` | string \| null | `course.end_date` | Fechas |
 | `course.startTime` | string \| null | `course.start_time` | Horario |
@@ -225,7 +225,7 @@ Pantalla: `/(app)/asistencia` — **solo mostrar**, el personal escanea el QR.
 | `lastName` | string | `users.last_name` | Apellido |
 | `dni` | string \| null | `users.dni` | Documento |
 | `profilePhotoUrl` | string \| null | `profile_photo_url` | Foto |
-| `role` | string | `role.name` | `"ALUMNO"` |
+| `role` | string | `role.name` | `"alumno"` |
 | `status` | string | derivado | Regular / estado |
 | `courseName` | string | `course.name` | Cursada activa |
 | `courseId` | string | `course.id` | — |
@@ -374,18 +374,18 @@ Datos derivados de otros endpoints — no requieren tablas nuevas:
 
 | id | name | Mobile |
 | --- | --- | --- |
-| 8 | `ALUMNO` | ✅ Permitido |
-| 9 | `POSTULANTE` | ❌ Fuera de alcance v1 |
+| 8 | `alumno` | ✅ Permitido |
+| 9 | `postulante` | ❌ Fuera de alcance v1 |
 | 1–7 | staff | ❌ |
 
 ### Estados usuario (`status`)
 
 | id | name | Texto API `user.status` |
 | --- | --- | --- |
-| 1 | `ACTIVO` | Activo |
-| 2 | `INACTIVO` | Inactivo |
-| 3 | `PENDIENTE` | Pendiente |
-| 4 | `EGRESADO` | Egresado |
+| 1 | `activo` | activo |
+| 2 | `inactivo` | inactivo |
+| 3 | `pendiente` | pendiente |
+| 4 | `egresado` | egresado |
 
 ### Estados curso (`status` en `course`)
 

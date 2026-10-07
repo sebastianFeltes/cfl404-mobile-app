@@ -25,7 +25,7 @@ export interface Course {
   name: string;
   image: any;
   statusId: number;
-  statusName: 'ACTIVO' | 'FINALIZADO' | 'PENDIENTE';
+  statusName: 'activo' | 'curso_finalizado' | 'pendiente';
   startDate: string;
   endDate: string;
   startTime: string;
@@ -59,8 +59,8 @@ export interface StudentProfile {
   lastName: string;
   dni: string;
   email: string;
-  role: 'ALUMNO';
-  status: 'Activo';
+  role: 'alumno';
+  status: 'activo';
   profilePhotoUrl: string | null;
   cycleLabel: string;
   institution: string;
@@ -72,8 +72,8 @@ export const currentStudent: StudentProfile = {
   lastName: 'Pérez',
   dni: '40.123.456',
   email: 'juan.perez@alumnos.cfl404.edu.ar',
-  role: 'ALUMNO',
-  status: 'Activo',
+  role: 'alumno',
+  status: 'activo',
   profilePhotoUrl: null,
   cycleLabel: 'Ciclo Lectivo 2026',
   institution: 'Centro de Formación Laboral N.º 404 Berisso',
@@ -85,7 +85,7 @@ export const mockCourses: Course[] = [
     name: 'Programación de Apps Móviles',
     image: require('@/assets/images/Desarrollador App moviles.jpg'),
     statusId: 1,
-    statusName: 'ACTIVO',
+    statusName: 'activo',
     startDate: '09/03/2026',
     endDate: '27/11/2026',
     startTime: '18:00',
@@ -191,7 +191,7 @@ export const mockCourses: Course[] = [
     name: 'Diseño UX/UI para Aplicaciones',
     image: require('@/assets/images/diseno_grafico_1785797572237.png'),
     statusId: 1,
-    statusName: 'ACTIVO',
+    statusName: 'activo',
     startDate: '11/03/2026',
     endDate: '25/11/2026',
     startTime: '14:00',
@@ -262,7 +262,7 @@ export const mockCourses: Course[] = [
     name: 'Electricidad Industrial y Automatización',
     image: require('@/assets/images/Montador Electricista.jpg'),
     statusId: 1,
-    statusName: 'ACTIVO',
+    statusName: 'activo',
     startDate: '16/03/2026',
     endDate: '04/12/2026',
     startTime: '18:30',
